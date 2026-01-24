@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - neoQuad</title>
+    <meta name="description" content="neoQuad Privacy Policy - How we collect, use, and protect your information.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00D26A;
+            --primary-glow: rgba(0, 210, 106, 0.4);
+            --bg-dark: #000000;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --text-tertiary: rgba(255, 255, 255, 0.4);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        .nav-logo img { width: 36px; height: 36px; border-radius: 10px; }
+        .nav-back {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-back:hover { color: var(--primary); }
+        @media (max-width: 768px) {
+            nav { padding: 16px 20px; }
+        }
+
+        /* Main Content */
+        .privacy-page {
+            padding: 120px 40px 80px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        @media (max-width: 768px) {
+            .privacy-page { padding: 100px 20px 60px; }
+        }
+
+        .privacy-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .privacy-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 20px;
+        }
+        .privacy-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+        .privacy-updated {
+            color: var(--text-tertiary);
+            font-size: 0.9rem;
+        }
+
+        /* Content Card */
+        .privacy-content {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 48px;
+        }
+        @media (max-width: 768px) {
+            .privacy-content { padding: 32px 24px; }
+        }
+
+        .privacy-intro {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .privacy-section {
+            margin-bottom: 40px;
+        }
+        .privacy-section:last-child {
+            margin-bottom: 0;
+        }
+        .privacy-section h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+        .privacy-section p {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+        }
+        .privacy-section p:last-child {
+            margin-bottom: 0;
+        }
+        .privacy-section ul {
+            list-style: none;
+            margin: 16px 0;
+        }
+        .privacy-section li {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            padding-left: 24px;
+            position: relative;
+            margin-bottom: 12px;
+        }
+        .privacy-section li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        /* Contact Box */
+        .contact-box {
+            background: rgba(0, 210, 106, 0.05);
+            border: 1px solid rgba(0, 210, 106, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 40px;
+        }
+        .contact-box h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--primary);
+        }
+        .contact-box p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+        .contact-box a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        .contact-box a:hover {
+            opacity: 0.8;
+        }
+
+        /* Footer */
+        footer {
+            background: #000;
+            padding: 32px 40px;
+            border-top: 1px solid var(--glass-border);
+            text-align: center;
+        }
+        .footer-copyright {
+            color: var(--text-tertiary);
+            font-size: 0.9rem;
+        }
+        .footer-links {
+            margin-top: 12px;
+        }
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="nav-logo">
+            <img src="logo.png" alt="neoQuad Logo">
+            <span>neoQuad</span>
+        </a>
+        <a href="index.html" class="nav-back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Back to Home
+        </a>
+    </nav>
+
+    <main class="privacy-page">
+        <div class="privacy-header">
+            <span class="privacy-badge">Legal</span>
+            <h1 class="privacy-title">Privacy Policy</h1>
+            <p class="privacy-updated">Last updated: December 26, 2025</p>
+        </div>
+
+        <div class="privacy-content">
+            <p class="privacy-intro">
+                neoQuad ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how your personal information is collected, used, and disclosed by neoQuad when you use our app and website.
+            </p>
+
+            <div class="privacy-section">
+                <h2>Information We Collect</h2>
+                <p>We collect information you provide directly to us when you create an account or use our services:</p>
+                <ul>
+                    <li>Name and username</li>
+                    <li>Email address (your .edu email)</li>
+                    <li>Password (encrypted)</li>
+                    <li>Phone number (optional)</li>
+                    <li>Photos you choose to upload</li>
+                </ul>
+            </div>
+
+            <div class="privacy-section">
+                <h2>How We Use Your Information</h2>
+                <p>We use the information we collect to:</p>
+                <ul>
+                    <li>Provide, maintain, and improve our services</li>
+                    <li>Connect you with campus events and clubs</li>
+                    <li>Send you notifications about events you've RSVP'd to</li>
+                    <li>Respond to your comments and questions</li>
+                    <li>Analyze usage to improve the app experience</li>
+                </ul>
+            </div>
+
+            <div class="privacy-section">
+                <h2>Information Sharing</h2>
+                <p>We do not sell your personal information. We may share information with:</p>
+                <ul>
+                    <li>Service providers who help us operate the app (hosting, analytics)</li>
+                    <li>Other users when you RSVP to events (your name may be visible)</li>
+                    <li>Law enforcement when required by law</li>
+                </ul>
+            </div>
+
+            <div class="privacy-section">
+                <h2>Data Security</h2>
+                <p>We use industry-standard security measures to protect your information, including encryption and secure servers. However, no method of transmission over the internet is 100% secure.</p>
+            </div>
+
+            <div class="privacy-section">
+                <h2>Your Rights</h2>
+                <p>You have the right to:</p>
+                <ul>
+                    <li>Access and update your personal information</li>
+                    <li>Delete your account and associated data</li>
+                    <li>Opt out of promotional communications</li>
+                    <li>Request a copy of your data</li>
+                </ul>
+            </div>
+
+            <div class="privacy-section">
+                <h2>Children's Privacy</h2>
+                <p>neoQuad is designed for college students. We do not knowingly collect information from anyone under the age of 13. If we learn we have collected such information, we will delete it immediately.</p>
+            </div>
+
+            <div class="privacy-section">
+                <h2>Changes to This Policy</h2>
+                <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the "Last updated" date.</p>
+            </div>
+
+            <div class="contact-box">
+                <h3>Questions?</h3>
+                <p>If you have any questions about this Privacy Policy, please contact us:</p>
+                <p>📧 <a href="mailto:hello@neoquadapp.com">hello@neoquadapp.com</a></p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p class="footer-copyright">© 2025 neoQuad. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Service</a>
+        </div>
+    </footer>
+</body>
+</html>

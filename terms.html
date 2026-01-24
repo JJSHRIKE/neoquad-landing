@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - neoQuad</title>
+    <meta name="description" content="neoQuad Terms of Service - Rules and guidelines for using our platform.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00D26A;
+            --primary-glow: rgba(0, 210, 106, 0.4);
+            --bg-dark: #000000;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --text-tertiary: rgba(255, 255, 255, 0.4);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        .nav-logo img { width: 36px; height: 36px; border-radius: 10px; }
+        .nav-back {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-back:hover { color: var(--primary); }
+        @media (max-width: 768px) {
+            nav { padding: 16px 20px; }
+        }
+
+        /* Main Content */
+        .terms-page {
+            padding: 120px 40px 80px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        @media (max-width: 768px) {
+            .terms-page { padding: 100px 20px 60px; }
+        }
+
+        .terms-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .terms-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 20px;
+        }
+        .terms-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+        .terms-updated {
+            color: var(--text-tertiary);
+            font-size: 0.9rem;
+        }
+
+        /* Content Card */
+        .terms-content {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 48px;
+        }
+        @media (max-width: 768px) {
+            .terms-content { padding: 32px 24px; }
+        }
+
+        .terms-intro {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .terms-section {
+            margin-bottom: 40px;
+        }
+        .terms-section:last-child {
+            margin-bottom: 0;
+        }
+        .terms-section h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+        .terms-section p {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+        }
+        .terms-section p:last-child {
+            margin-bottom: 0;
+        }
+        .terms-section ul {
+            list-style: none;
+            margin: 16px 0;
+        }
+        .terms-section li {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            padding-left: 24px;
+            position: relative;
+            margin-bottom: 12px;
+        }
+        .terms-section li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        /* Contact Box */
+        .contact-box {
+            background: rgba(0, 210, 106, 0.05);
+            border: 1px solid rgba(0, 210, 106, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 40px;
+        }
+        .contact-box h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--primary);
+        }
+        .contact-box p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+        .contact-box a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        .contact-box a:hover {
+            opacity: 0.8;
+        }
+
+        /* Footer */
+        footer {
+            background: #000;
+            padding: 32px 40px;
+            border-top: 1px solid var(--glass-border);
+            text-align: center;
+        }
+        .footer-copyright {
+            color: var(--text-tertiary);
+            font-size: 0.9rem;
+        }
+        .footer-links {
+            margin-top: 12px;
+        }
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="nav-logo">
+            <img src="logo.png" alt="neoQuad Logo">
+            <span>neoQuad</span>
+        </a>
+        <a href="index.html" class="nav-back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Back to Home
+        </a>
+    </nav>
+
+    <main class="terms-page">
+        <div class="terms-header">
+            <span class="terms-badge">Legal</span>
+            <h1 class="terms-title">Terms of Service</h1>
+            <p class="terms-updated">Last updated: December 26, 2025</p>
+        </div>
+
+        <div class="terms-content">
+            <p class="terms-intro">
+                Welcome to neoQuad! By using our app and services, you agree to these Terms of Service. Please read them carefully.
+            </p>
+
+            <div class="terms-section">
+                <h2>1. Acceptance of Terms</h2>
+                <p>By accessing or using neoQuad, you agree to be bound by these Terms of Service and our Privacy Policy. If you do not agree to these terms, please do not use our services.</p>
+            </div>
+
+            <div class="terms-section">
+                <h2>2. Eligibility</h2>
+                <p>neoQuad is designed for college students. To use our services, you must:</p>
+                <ul>
+                    <li>Be at least 13 years of age</li>
+                    <li>Have a valid .edu email address from a supported institution</li>
+                    <li>Be a current student, faculty, or staff member</li>
+                </ul>
+            </div>
+
+            <div class="terms-section">
+                <h2>3. Your Account</h2>
+                <p>You are responsible for maintaining the confidentiality of your account and password. You agree to:</p>
+                <ul>
+                    <li>Provide accurate and complete information</li>
+                    <li>Keep your login credentials secure</li>
+                    <li>Notify us immediately of any unauthorized use</li>
+                    <li>Accept responsibility for all activities under your account</li>
+                </ul>
+            </div>
+
+            <div class="terms-section">
+                <h2>4. Acceptable Use</h2>
+                <p>You agree not to use neoQuad to:</p>
+                <ul>
+                    <li>Post false, misleading, or fraudulent content</li>
+                    <li>Harass, abuse, or harm other users</li>
+                    <li>Spam or send unsolicited messages</li>
+                    <li>Violate any applicable laws or regulations</li>
+                    <li>Impersonate others or misrepresent your affiliation</li>
+                    <li>Interfere with or disrupt the service</li>
+                </ul>
+            </div>
+
+            <div class="terms-section">
+                <h2>5. Content</h2>
+                <p>You retain ownership of content you post. By posting content, you grant neoQuad a license to use, display, and distribute that content within our platform. You are solely responsible for the content you post.</p>
+            </div>
+
+            <div class="terms-section">
+                <h2>6. Club Administrators</h2>
+                <p>If you are a club administrator, you agree to:</p>
+                <ul>
+                    <li>Post accurate event information</li>
+                    <li>Represent your club honestly</li>
+                    <li>Respond to student inquiries in good faith</li>
+                    <li>Not misuse your administrative privileges</li>
+                </ul>
+            </div>
+
+            <div class="terms-section">
+                <h2>7. Termination</h2>
+                <p>We may suspend or terminate your account if you violate these terms. You may delete your account at any time through the app settings.</p>
+            </div>
+
+            <div class="terms-section">
+                <h2>8. Disclaimer</h2>
+                <p>neoQuad is provided "as is" without warranties of any kind. We do not guarantee the accuracy of event information posted by clubs or users. Always verify important details directly with event organizers.</p>
+            </div>
+
+            <div class="terms-section">
+                <h2>9. Changes to Terms</h2>
+                <p>We may update these terms from time to time. Continued use of neoQuad after changes constitutes acceptance of the new terms.</p>
+            </div>
+
+            <div class="contact-box">
+                <h3>Questions?</h3>
+                <p>If you have any questions about these Terms of Service, please contact us:</p>
+                <p>📧 <a href="mailto:hello@neoquadapp.com">hello@neoquadapp.com</a></p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p class="footer-copyright">© 2025 neoQuad. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Service</a>
+        </div>
+    </footer>
+</body>
+</html>
