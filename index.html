@@ -12,6 +12,8 @@
         :root {
             --primary: #00D26A;
             --primary-glow: rgba(0, 210, 106, 0.4);
+            --gold: #FFD700;
+            --gold-glow: rgba(255, 215, 0, 0.3);
             --bg-dark: #000000;
             --glass: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
@@ -40,6 +42,10 @@
             0%, 100% { opacity: 0.4; }
             50% { opacity: 0.8; }
         }
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
         .reveal {
             opacity: 0;
             transform: translateY(40px);
@@ -47,10 +53,102 @@
         }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* Navigation */
+        /* Announcement Banner */
+        .announcement-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1001;
+            background: linear-gradient(90deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 165, 0, 0.1) 50%, rgba(255, 215, 0, 0.15) 100%);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .announcement-banner.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+        .announcement-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .announcement-emoji {
+            font-size: 1.1rem;
+        }
+        .announcement-text {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+        .announcement-text strong {
+            background: linear-gradient(90deg, var(--gold), #FFA500);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s linear infinite;
+            font-weight: 700;
+        }
+        .announcement-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 14px;
+            background: linear-gradient(135deg, var(--gold), #FFA500);
+            color: #000;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 100px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        .announcement-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--gold-glow);
+        }
+        .announcement-close {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s ease;
+        }
+        .announcement-close:hover {
+            color: var(--text-primary);
+        }
+        @media (max-width: 600px) {
+            .announcement-banner {
+                padding: 10px 40px 10px 16px;
+            }
+            .announcement-text {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Navigation - adjusted for banner */
         nav {
             position: fixed;
-            top: 0; left: 0; right: 0;
+            top: 44px;
+            left: 0; right: 0;
             z-index: 1000;
             padding: 16px 40px;
             display: flex;
@@ -60,6 +158,10 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border);
+            transition: top 0.3s ease;
+        }
+        nav.banner-hidden {
+            top: 0;
         }
         .nav-logo {
             display: flex;
@@ -99,7 +201,7 @@
             .nav-links { display: none; }
         }
 
-        /* Hero Section */
+        /* Hero Section - adjusted for banner */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -107,7 +209,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 140px 20px 80px;
+            padding: 180px 20px 80px;
             position: relative;
             overflow: hidden;
         }
@@ -578,7 +680,21 @@
     </style>
 </head>
 <body>
-    <nav>
+    <!-- Announcement Banner -->
+    <div class="announcement-banner" id="announcementBanner">
+        <div class="announcement-content">
+            <span class="announcement-emoji">🎉</span>
+            <span class="announcement-text">We're giving away <strong>$1,111</strong> to celebrate our SBCC launch!</span>
+            <a href="events.html" class="announcement-link">Learn More →</a>
+        </div>
+        <button class="announcement-close" id="closeBanner" aria-label="Close announcement">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+        </button>
+    </div>
+
+    <nav id="mainNav">
         <a href="#" class="nav-logo">
             <img src="logo.png" alt="neoQuad Logo">
             <span>neoQuad</span>
@@ -586,6 +702,7 @@
         <ul class="nav-links">
             <li><a href="#features">Features</a></li>
             <li><a href="#screenshots">App</a></li>
+            <li><a href="events.html">Events</a></li>
             <li><a href="#about">Our Story</a></li>
             <li><a href="#how-it-works">How It Works</a></li>
         </ul>
@@ -807,6 +924,7 @@
                     <h4>Company</h4>
                     <ul>
                         <li><a href="#about">Our Story</a></li>
+                        <li><a href="events.html">Events</a></li>
                         <li><a href="privacy.html">Privacy Policy</a></li>
                         <li><a href="terms.html">Terms of Service</a></li>
                     </ul>
@@ -834,6 +952,7 @@
     </footer>
 
     <script>
+        // Reveal animations
         function reveal() {
             const reveals = document.querySelectorAll('.reveal');
             reveals.forEach(element => {
@@ -847,6 +966,8 @@
         }
         window.addEventListener('scroll', reveal);
         window.addEventListener('load', reveal);
+
+        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -855,6 +976,23 @@
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
+        });
+
+        // Announcement banner dismiss
+        const banner = document.getElementById('announcementBanner');
+        const closeBanner = document.getElementById('closeBanner');
+        const nav = document.getElementById('mainNav');
+
+        // Check if banner was previously dismissed
+        if (localStorage.getItem('bannerDismissed') === 'true') {
+            banner.classList.add('hidden');
+            nav.classList.add('banner-hidden');
+        }
+
+        closeBanner.addEventListener('click', function() {
+            banner.classList.add('hidden');
+            nav.classList.add('banner-hidden');
+            localStorage.setItem('bannerDismissed', 'true');
         });
     </script>
 </body>
