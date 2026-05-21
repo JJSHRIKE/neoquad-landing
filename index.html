@@ -1,867 +1,2385 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>neoQuad - Never Miss a Moment</title>
-    <meta name="description" content="Discover campus events, connect with clubs, and never miss what's happening at your college.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #00D26A;
-            --primary-glow: rgba(0, 210, 106, 0.4);
-            --gold: #FFD700;
-            --gold-glow: rgba(255, 215, 0, 0.3);
-            --bg-dark: #000000;
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.6);
-            --text-tertiary: rgba(255, 255, 255, 0.4);
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 0.8; }
-        }
-        @keyframes shimmer {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
-        }
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+<!DOCTYPE html><html lang="en"><head>
 
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0; right: 0;
-            z-index: 1000;
-            padding: 16px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-            transition: top 0.3s ease;
-        }
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.3rem;
-            font-weight: 600;
-            text-decoration: none;
-            color: var(--text-primary);
-        }
-        .nav-logo img { width: 36px; height: 36px; border-radius: 10px; }
-        .nav-links { display: flex; gap: 32px; list-style: none; }
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        .nav-links a:hover { color: var(--primary); }
-        .nav-links a.nav-highlight {
-            color: var(--primary);
-            position: relative;
-        }
-        .nav-links a.nav-highlight::after {
-            content: 'NEW';
-            position: absolute;
-            top: -10px;
-            right: -30px;
-            font-size: 0.55rem;
-            background: var(--primary);
-            color: #000;
-            padding: 2px 5px;
-            border-radius: 4px;
-            font-weight: 700;
-        }
-        .nav-cta {
-            background: var(--primary);
-            color: #000;
-            padding: 10px 24px;
-            border-radius: 100px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        .nav-cta:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px var(--primary-glow);
-        }
-        @media (max-width: 768px) {
-            nav { padding: 16px 20px; }
-            .nav-links { display: none; }
-        }
 
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 140px 20px 80px;
-            position: relative;
-            overflow: hidden;
-        }
-        .hero-bg { position: absolute; inset: 0; overflow: hidden; z-index: 0; }
-        .hero-glow {
-            position: absolute;
-            width: 800px; height: 800px;
-            border-radius: 50%;
-            filter: blur(150px);
-            opacity: 0.3;
-            animation: pulse 8s ease-in-out infinite;
-        }
-        .hero-glow-1 {
-            top: -400px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--primary);
-        }
-        .hero-glow-2 {
-            bottom: -200px;
-            right: -200px;
-            background: #0066FF;
-            animation-delay: 2s;
-            width: 600px; height: 600px;
-        }
-        .hero-content { position: relative; z-index: 1; max-width: 900px; }
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 100px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 32px;
-        }
-        .hero-badge-dot {
-            width: 8px; height: 8px;
-            background: var(--primary);
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-        }
-        .hero-title {
-            font-size: clamp(3rem, 8vw, 5.5rem);
-            font-weight: 700;
-            line-height: 1.05;
-            letter-spacing: -0.03em;
-            margin-bottom: 24px;
-        }
-        .hero-title span {
-            background: linear-gradient(135deg, var(--primary), #00FF88);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hero-subtitle {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto 40px;
-            line-height: 1.7;
-        }
-        .hero-cta { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 16px 32px;
-            background: var(--primary);
-            color: #000;
-            font-weight: 600;
-            font-size: 1rem;
-            border-radius: 14px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 20px 40px var(--primary-glow);
-        }
-        .btn-primary svg { width: 22px; height: 22px; }
-        .btn-secondary {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 16px 32px;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            color: var(--text-primary);
-            font-weight: 600;
-            font-size: 1rem;
-            border-radius: 14px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
-        .hero-phone { margin-top: 60px; position: relative; }
-        .hero-phone-frame {
-            width: 280px; height: 580px;
-            background: #1a1a1a;
-            border-radius: 44px;
-            padding: 12px;
-            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
-            animation: float 6s ease-in-out infinite;
-        }
-        .hero-phone-screen {
-            width: 100%; height: 100%;
-            background: #000;
-            border-radius: 34px;
-            overflow: hidden;
-        }
-        .hero-phone-screen img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Sections */
-        section { padding: 120px 40px; }
-        @media (max-width: 768px) { section { padding: 80px 20px; } }
-        .section-header { text-align: center; max-width: 700px; margin: 0 auto 64px; }
-        .section-label {
-            display: inline-block;
-            padding: 6px 14px;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 100px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 20px;
-        }
-        .section-title {
-            font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 16px;
-        }
-        .section-subtitle { font-size: 1.1rem; color: var(--text-secondary); line-height: 1.7; }
 
-        /* Features */
-        .features { background: linear-gradient(180deg, transparent 0%, rgba(0, 210, 106, 0.02) 50%, transparent 100%); }
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .feature-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 32px;
-            transition: all 0.4s ease;
-        }
-        .feature-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--primary);
-            box-shadow: 0 20px 60px rgba(0, 210, 106, 0.1);
-        }
-        .feature-icon { font-size: 2.5rem; margin-bottom: 20px; }
-        .feature-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 12px; }
-        .feature-description { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; }
 
-        /* Screenshots */
-        .screenshots { 
-            background: linear-gradient(180deg, #000 0%, #050505 50%, #000 100%);
-            overflow: hidden;
-            padding: 120px 20px;
-            position: relative;
-        }
-        .screenshots::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80%;
-            height: 60%;
-            background: radial-gradient(ellipse, rgba(0, 210, 106, 0.08) 0%, transparent 70%);
-            pointer-events: none;
-        }
-        .screenshots-grid {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 60px 20px;
-            position: relative;
-            z-index: 1;
-        }
-        .screenshot-item {
-            flex: 0 0 auto;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .screenshot-item:nth-child(1) { transform: translateY(30px); }
-        .screenshot-item:nth-child(2) { transform: translateY(-20px); }
-        .screenshot-item:nth-child(3) { transform: translateY(10px); }
-        .screenshot-item:nth-child(4) { transform: translateY(-30px); }
-        .screenshot-item:nth-child(5) { transform: translateY(20px); }
-        .screenshot-item:nth-child(6) { transform: translateY(-10px); }
-        .screenshot-phone {
-            width: 180px;
-            height: 380px;
-            background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
-            border-radius: 32px;
-            padding: 8px;
-            box-shadow: 
-                0 30px 60px rgba(0, 0, 0, 0.5),
-                0 0 0 1px rgba(255, 255, 255, 0.08),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-        }
-        .screenshot-phone::after {
-            content: '';
-            position: absolute;
-            inset: -3px;
-            border-radius: 35px;
-            background: linear-gradient(145deg, rgba(0, 210, 106, 0.3), rgba(0, 102, 255, 0.2));
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            filter: blur(8px);
-        }
-        .screenshot-item:hover .screenshot-phone {
-            transform: translateY(-20px) scale(1.05);
-            box-shadow: 
-                0 50px 100px rgba(0, 0, 0, 0.6),
-                0 0 0 1px rgba(0, 210, 106, 0.4);
-        }
-        .screenshot-item:hover .screenshot-phone::after {
-            opacity: 1;
-        }
-        .screenshot-screen {
-            width: 100%;
-            height: 100%;
-            background: #000;
-            border-radius: 24px;
-            overflow: hidden;
-        }
-        .screenshot-screen img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover;
-        }
-        .screenshot-label { 
-            text-align: center; 
-            margin-top: 16px; 
-            font-size: 0.8rem; 
-            color: var(--text-tertiary); 
-            font-weight: 500;
-            letter-spacing: 0.02em;
-            transition: all 0.3s ease;
-        }
-        .screenshot-item:hover .screenshot-label {
-            color: var(--primary);
-        }
-        @media (max-width: 1200px) {
-            .screenshots-grid {
-                gap: 16px;
-            }
-            .screenshot-phone {
-                width: 160px;
-                height: 340px;
-            }
-        }
-        @media (max-width: 900px) {
-            .screenshots-grid {
-                justify-content: flex-start;
-                overflow-x: auto;
-                scroll-snap-type: x mandatory;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none;
-                padding: 40px 30px;
-                gap: 20px;
-                margin: 0;
-                max-width: 100%;
-            }
-            .screenshots-grid::-webkit-scrollbar { display: none; }
-            .screenshot-item {
-                scroll-snap-align: center;
-                transform: translateY(0) !important;
-                flex: 0 0 auto;
-            }
-            .screenshot-phone {
-                width: 200px;
-                height: 420px;
-                border-radius: 36px;
-            }
-            .screenshot-screen {
-                border-radius: 28px;
-            }
-        }
 
-        /* About Section */
-        .about { background: linear-gradient(180deg, #050505 0%, #000 100%); }
-        .about-content { max-width: 1100px; margin: 0 auto; }
-        .about-story {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 32px;
-            padding: 48px;
-            margin-bottom: 48px;
-        }
-        .about-story-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.85rem;
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-        .about-story h3 { font-size: 1.8rem; font-weight: 700; margin-bottom: 20px; line-height: 1.3; }
-        .about-story p { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.8; margin-bottom: 16px; }
-        .about-quote {
-            border-left: 3px solid var(--primary);
-            padding-left: 24px;
-            margin: 32px 0;
-            font-style: italic;
-            font-size: 1.2rem;
-            color: var(--text-primary);
-        }
-        .founders-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
-        }
-        .founder-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 32px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        .founder-card:hover { border-color: var(--primary); transform: translateY(-4px); }
-        .founder-avatar {
-            width: 120px; height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), #0066FF);
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #000;
-            overflow: hidden;
-        }
-        .founder-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .founder-name { font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; }
-        .founder-role { color: var(--primary); font-size: 0.9rem; font-weight: 600; margin-bottom: 16px; }
-        .founder-bio { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; }
-        .founder-social { display: flex; justify-content: center; gap: 12px; margin-top: 20px; }
-        .founder-social a {
-            width: 40px; height: 40px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            transition: all 0.3s ease;
-        }
-        .founder-social a:hover { color: var(--primary); border-color: var(--primary); }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>neoQuad — The operating system for campus life.</title>
+<meta name="description" content="A discovery layer between campus resources and the students who need them. Built for institutions. Loved by students. Launching at Santa Barbara City College.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&amp;family=Source+Serif+4:ital,wght@1,400;1,500&amp;family=JetBrains+Mono:wght@400;500&amp;family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&amp;family=DM+Serif+Display:ital@1&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0E0E0E;
+    --black-2:#161616;
+    --cream:#F4EFE6;
+    --cream-2:#EBE4D6;
+    --ink:#1A1A1A;
+    --ink-soft:rgba(244,239,230,0.62);
+    --ink-soft-cream:rgba(14,14,14,0.62);
+    --rule-black:rgba(244,239,230,0.16);
+    --rule-cream:rgba(14,14,14,0.14);
+    /* MOOD-DRIVEN ACCENT (overridden by JS) */
+    --accent: oklch(0.58 0.19 256);
+    --accent-soft: rgba(82,127,217,0.18);
+    --accent-glow: oklch(0.58 0.19 256 / 0.45);
+    --accent-conic-1: oklch(0.72 0.16 256);
+    --accent-conic-2: oklch(0.58 0.19 256);
+    --accent-conic-3: oklch(0.85 0.08 256);
+    --accent-conic-4: oklch(0.45 0.18 256);
+    /* legacy alias — many rules still reference --blue */
+    --blue: var(--accent);
+    /* EDITORIAL — italics ratio scales display italic emphasis */
+    --italic-ratio: 1;
+    --display-scale: 1;
+    --rule-weight: 1px;
+    --mono-track: 0.06em;
+    /* SERIF FAMILY — swappable by mood */
+    --serif-display: 'IBM Plex Serif', serif;
+    --serif-italic: 'IBM Plex Serif', serif;
+    --max: 1320px;
+    --pad: clamp(20px, 4vw, 56px);
+  }
 
-        /* How It Works */
-        .how-it-works { background: #000; }
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        .step { text-align: center; padding: 32px; }
-        .step-number {
-            width: 56px; height: 56px;
-            background: linear-gradient(135deg, var(--primary), #00FF88);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #000;
-            margin: 0 auto 24px;
-        }
-        .step-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 12px; }
-        .step-description { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; }
+  /* ============ TEXTURE OVERLAYS (driven by data-texture on body) ============ */
+  body[data-texture="clean"] .tex-overlay{display:none}
+  .tex-overlay{
+    position:absolute;inset:0;pointer-events:none;
+    z-index:1; mix-blend-mode:overlay;
+    opacity:0; transition:opacity .5s ease;
+  }
+  body[data-texture="grain"] .tex-overlay{
+    opacity:0.55;
+    background-image:
+      radial-gradient(rgba(255,255,255,0.5) 0.6px, transparent 0.7px),
+      radial-gradient(rgba(0,0,0,0.5) 0.6px, transparent 0.7px);
+    background-size: 2.6px 2.6px, 3.4px 3.4px;
+    background-position: 0 0, 1px 1px;
+  }
+  body[data-texture="riso"] .tex-overlay{
+    opacity:0.85;
+    background-image:
+      radial-gradient(circle at center, rgba(0,0,0,0.55) 1.1px, transparent 1.4px);
+    background-size: 4px 4px;
+    mix-blend-mode:multiply;
+  }
+  /* riso adds a second offset color halo using the accent */
+  body[data-texture="riso"] .tex-overlay::after{
+    content:""; position:absolute; inset:0;
+    background-image:
+      radial-gradient(circle at center, var(--accent) 1.1px, transparent 1.4px);
+    background-size: 4px 4px;
+    background-position: 1.5px 1px;
+    opacity:0.22; mix-blend-mode:screen;
+  }
+  /* let dark sections show overlay above their own bg */
+  section.black, header.hero, footer, #institutions{position:relative}
+  section.black > .tex-overlay, footer > .tex-overlay, #institutions > .tex-overlay{
+    z-index:1; mix-blend-mode:overlay;
+  }
+  section.cream:not(#institutions) > .tex-overlay{
+    z-index:0; mix-blend-mode:multiply; opacity:0;
+  }
+  body[data-texture="grain"] section.cream:not(#institutions) > .tex-overlay{opacity:0.18}
+  body[data-texture="riso"] section.cream:not(#institutions) > .tex-overlay{opacity:0.45}
+  section.black .wrap, section.cream .wrap, footer .ftr-grid, footer .ftr-bottom{position:relative;z-index:2}
 
-        /* Mission */
-        .mission { background: linear-gradient(180deg, #000 0%, #050505 100%); text-align: center; }
-        .mission-content { max-width: 800px; margin: 0 auto; }
-        .mission-quote { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; line-height: 1.3; margin-bottom: 32px; }
-        .mission-quote span { color: var(--primary); }
-        .mission-text { font-size: 1.1rem; color: var(--text-secondary); line-height: 1.8; }
+  /* ============ SCROLL CAROUSEL ============ */
+  .scroll-pill{
+    position:fixed;left:50%;top:24px;
+    transform:translate(-50%, -120%);
+    z-index:50;
+    display:flex;align-items:center;
+    background:rgba(244,239,230,0.42);
+    backdrop-filter:blur(22px) saturate(150%);
+    -webkit-backdrop-filter:blur(22px) saturate(150%);
+    border:1px solid rgba(14,14,14,0.06);
+    border-radius:999px;
+    padding:14px 26px;
+    box-shadow: 0 14px 40px -14px rgba(14,14,14,0.18), inset 0 1px 0 rgba(255,255,255,0.4);
+    transition: transform 0.5s cubic-bezier(.2,.8,.2,1), opacity 0.4s ease;
+    opacity:0;
+    pointer-events:none;
+    font-family:'Geist', system-ui, sans-serif;
+    color:var(--ink);
+  }
+  .scroll-pill.show{
+    transform:translate(-50%, 0);
+    opacity:1;
+    pointer-events:auto;
+  }
+  .sp-track{
+    display:flex;align-items:center;gap:22px;
+    background:transparent;border:none;
+  }
+  .sp-item{
+    position:relative;
+    display:flex;align-items:center;justify-content:center;
+    height:14px;flex:none;
+    background:transparent;border:none;outline:none;
+    color:var(--ink);
+    font-family:'Geist', system-ui, sans-serif;
+    font-size:15px;font-weight:600;letter-spacing:-0.01em;
+    cursor:pointer;
+    white-space:nowrap;
+    padding:0;
+    transition: width 0.55s cubic-bezier(.2,.8,.2,1);
+    overflow:hidden;
+    width:8px;
+  }
+  .sp-item .dot-mark{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--ink);
+    flex:none;
+    transition: opacity 0.4s cubic-bezier(.2,.8,.2,1) 0.1s, transform 0.5s cubic-bezier(.2,.8,.2,1);
+  }
+  .sp-item .lbl{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    opacity:0;
+    transform:translateY(2px);
+    transition: opacity 0.4s cubic-bezier(.2,.8,.2,1), transform 0.5s cubic-bezier(.2,.8,.2,1);
+    pointer-events:none;
+    color:var(--ink);
+  }
+  .sp-item.active .dot-mark{
+    opacity:0;
+    transform:scale(0.4);
+  }
+  .sp-item.active .lbl{
+    opacity:1;
+    transform:translateY(0);
+    transition-delay: 0.12s;
+  }
+  .sp-item:hover .dot-mark{
+    transform:scale(1.25);
+  }
+  .sp-item.active:hover .dot-mark{transform:scale(0.4)}
+  .sp-item.measuring{transition:none !important}
+  .sp-item.measuring .lbl{position:static;opacity:1;transform:none}
+  .sp-item.measuring .dot-mark{display:none}
 
-        /* CTA Section */
-        .cta-section { padding: 80px 40px 120px; }
-        .cta-card {
-            max-width: 700px;
-            margin: 0 auto;
-            text-align: center;
-            background: linear-gradient(135deg, rgba(0, 210, 106, 0.1), rgba(0, 102, 255, 0.05));
-            border: 1px solid var(--glass-border);
-            border-radius: 32px;
-            padding: 64px 48px;
-        }
-        .cta-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 16px; }
-        .cta-subtitle { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 32px; }
+  /* Hover on whole pill brightens it slightly */
+  .scroll-pill:hover{
+    background:rgba(244,239,230,0.62);
+  }
 
-        /* Footer */
-        footer { background: #000; padding: 64px 40px 32px; border-top: 1px solid var(--glass-border); }
-        .footer-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 48px; }
-        .footer-brand { display: flex; align-items: center; gap: 12px; font-size: 1.3rem; font-weight: 600; }
-        .footer-brand img { width: 40px; height: 40px; border-radius: 10px; }
-        .footer-links { display: flex; gap: 64px; flex-wrap: wrap; }
-        .footer-column h4 { font-size: 0.85rem; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; }
-        .footer-column ul { list-style: none; }
-        .footer-column li { margin-bottom: 10px; }
-        .footer-column a { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; transition: color 0.3s ease; }
-        .footer-column a:hover { color: var(--primary); }
-        .footer-bottom { max-width: 1200px; margin: 48px auto 0; padding-top: 32px; border-top: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
-        .footer-copyright { color: var(--text-tertiary); font-size: 0.9rem; }
-        .footer-social { display: flex; gap: 16px; }
-        .footer-social a { color: var(--text-tertiary); transition: color 0.3s ease; }
-        .footer-social a:hover { color: var(--primary); }
-        @media (max-width: 768px) {
-            .footer-content { flex-direction: column; }
-            .footer-links { gap: 32px; }
-            .footer-bottom { flex-direction: column; text-align: center; }
-        }
-    </style>
+  @media (max-width: 640px){
+    .scroll-pill{top:16px;padding:11px 20px}
+    .sp-track{gap:18px}
+    .sp-item{font-size:13px}
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+  }
+  section{scroll-margin-top:24px}
+  body{
+    font-family:'Geist', system-ui, -apple-system, sans-serif;
+    font-size:18px;
+    line-height:1.55;
+    color:var(--ink);
+    background:var(--cream);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{background:var(--blue);color:#fff}
+
+  a{color:inherit;text-decoration:none}
+  p{margin:0}
+  h1,h2,h3,h4{margin:0;font-weight:500;letter-spacing:-0.02em}
+
+  .blue{color:var(--accent);font-weight:500}
+  .serif-i{font-family:var(--serif-italic);font-style:italic;font-weight:400;letter-spacing:-0.01em}
+  .mono{font-family:'JetBrains Mono', ui-monospace, monospace;font-size:11px;letter-spacing:var(--mono-track);text-transform:uppercase}
+
+  /* Sections */
+  section{padding-block:clamp(80px, 10vw, 140px);padding-inline:var(--pad)}
+  .black{background:var(--black);color:var(--cream)}
+  .cream{background:var(--cream);color:var(--ink)}
+  .wrap{max-width:var(--max);margin:0 auto;width:100%}
+
+  /* Wordmark */
+  .wm{
+    font-family:'IBM Plex Serif', serif;
+    font-size:22px;font-weight:700;letter-spacing:-0.02em;
+    display:inline-flex;align-items:center;gap:10px;
+  }
+  .wm em{font-family:var(--serif-italic);font-style:italic;font-weight:400;letter-spacing:-0.015em}
+  .wm-mark{
+    width:30px;height:30px;flex:none;
+    background:url('assets/flower-of-life-white.png') center/contain no-repeat;
+  }
+  .cream .wm-mark{
+    background-image:url('assets/flower-of-life-dark.png');
+  }
+
+  /* ============ HERO ============ */
+  .hero{
+    min-height:100vh;
+    padding:0;
+    position:relative;
+    overflow:hidden;
+    display:flex;flex-direction:column;
+    background:var(--black);
+    color:var(--cream);
+  }
+  .hero-img{
+    position:absolute;inset:0;
+    background:url('assets/hero-coast.jpeg') center 35%/cover no-repeat;
+    z-index:0;
+  }
+  .hero-img::after{
+    content:"";position:absolute;inset:0;
+    background:
+      linear-gradient(180deg, rgba(14,14,14,0.55) 0%, rgba(14,14,14,0.25) 35%, rgba(14,14,14,0.55) 70%, rgba(14,14,14,0.92) 100%),
+      linear-gradient(90deg, rgba(14,14,14,0.55) 0%, rgba(14,14,14,0.05) 60%, rgba(14,14,14,0) 100%);
+  }
+  /* film grain */
+  .hero-img::before{
+    content:"";position:absolute;inset:0;
+    background-image:
+      radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      radial-gradient(rgba(0,0,0,0.04) 1px, transparent 1px);
+    background-size:3px 3px, 5px 5px;
+    background-position:0 0, 1px 1px;
+    mix-blend-mode:overlay;opacity:0.5;
+    pointer-events:none;
+  }
+  .hero-nav{
+    position:relative;z-index:2;
+    padding:28px var(--pad);
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .hero-nav .right{
+    display:flex;gap:28px;align-items:center;
+    font-size:14px;color:rgba(244,239,230,0.78);
+  }
+  .hero-nav a:hover{color:#fff}
+  .hero-nav a.nav-cta{
+    display:inline-flex;align-items:center;gap:8px;
+    margin-left:8px;padding:9px 16px;border-radius:999px;
+    font-size:13.5px;font-weight:500;letter-spacing:-0.005em;
+    background:#1477e7;color:#fff;
+    border:1px solid rgba(176,197,220,0.37);
+    transition:transform .2s ease, background .2s ease, box-shadow .2s ease;
+  }
+  .hero-nav a.nav-cta:hover{background:#2d86ec;color:#fff;transform:translateY(-1px);box-shadow:0 6px 20px -8px rgba(20,119,231,0.6)}
+  .hero-nav a.nav-cta .arrow{transition:transform .2s ease}
+  .hero-nav a.nav-cta:hover .arrow{transform:translate(2px,0)}
+  .hero-body{
+    position:relative;z-index:2;flex:1;
+    padding:clamp(40px, 6vw, 80px) var(--pad) clamp(48px, 6vw, 88px);
+    display:flex;align-items:flex-end;
+  }
+  .hero-grid{
+    width:100%;max-width:var(--max);margin:0 auto;
+    display:grid;grid-template-columns:minmax(0, 1fr) minmax(0, 380px);
+    gap:clamp(32px, 6vw, 96px);align-items:end;
+  }
+  .hero-eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    color:rgba(244,239,230,0.72);
+    margin-bottom:36px;
+  }
+  .hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+  h1.hero-h{
+    font-size:calc(clamp(44px, 7.2vw, 96px) * var(--display-scale));
+    line-height:0.96;
+    letter-spacing:-0.035em;
+    font-weight:400;
+    max-width:14ch;
+    margin-bottom:32px;
+    font-family:var(--serif-display);
+  }
+  h1.hero-h .of{font-family:var(--serif-italic);font-style:italic;font-weight:400;font-size:calc(1em * var(--italic-ratio));line-height:0.9}
+  .hero-sub{
+    font-size:clamp(17px, 1.4vw, 20px);
+    line-height:1.5;color:rgba(244,239,230,0.78);
+    max-width:52ch;
+    margin-bottom:48px;
+  }
+  .cta-row{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:16px 26px;border-radius:999px;
+    font-weight:500;font-size:15px;letter-spacing:-0.005em;
+    background:var(--cream);color:var(--black);
+    border:1px solid var(--cream);
+    transition:transform .2s ease, background .2s ease;
+  }
+  .btn:hover{background:#fff;transform:translateY(-1px)}
+  .btn .arrow{display:inline-block;transition:transform .2s ease}
+  .btn:hover .arrow{transform:translate(2px,0)}
+  .btn-link{
+    font-size:14px;color:rgba(244,239,230,0.72);
+    border-bottom:1px solid rgba(244,239,230,0.25);
+    padding-bottom:2px;
+  }
+  .btn-link:hover{color:#fff;border-color:#fff}
+
+  /* hero meta box (right column) */
+  .hero-meta{
+    border-top:1px solid rgba(244,239,230,0.22);
+    padding-top:20px;
+    color:rgba(244,239,230,0.7);
+    font-size:13px;
+    display:flex;flex-direction:column;gap:14px;
+    max-width:380px;
+  }
+  .hero-meta .row{display:flex;justify-content:space-between;gap:16px}
+  .hero-meta .row span:first-child{color:rgba(244,239,230,0.5)}
+
+  /* ============ SECTION GENERIC ============ */
+  .section-num{
+    display:flex;align-items:center;gap:14px;
+    margin-bottom:48px;
+  }
+  .section-num .n{
+    font-family:'JetBrains Mono', monospace;font-size:11px;letter-spacing:0.1em;
+  }
+  .section-num .label{
+    font-family:'JetBrains Mono', monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+  }
+  .black .section-num .n,.black .section-num .label{color:rgba(244,239,230,0.55)}
+  .cream .section-num .n,.cream .section-num .label{color:rgba(14,14,14,0.5)}
+  .section-num .line{flex:1;height:1px;}
+  .black .section-num .line{background:var(--rule-black)}
+  .cream .section-num .line{background:var(--rule-cream)}
+
+  h2.sec-h{
+    font-size:calc(clamp(36px, 5.4vw, 76px) * var(--display-scale));
+    line-height:1.0;
+    letter-spacing:-0.035em;
+    font-weight:400;
+    max-width:18ch;
+    margin-bottom:40px;
+    font-family:var(--serif-display);
+  }
+  h2.sec-h .of{font-family:var(--serif-italic);font-style:italic;font-weight:400;font-size:calc(1em * var(--italic-ratio));line-height:0.9}
+  .lead{
+    font-size:clamp(18px, 1.5vw, 21px);
+    line-height:1.5;
+    max-width:62ch;
+    color:var(--ink);
+  }
+  .black .lead{color:rgba(244,239,230,0.78)}
+
+  /* ============ INSTITUTIONS (now dark, seamless with hero) ============ */
+  #institutions.cream{
+    background:var(--black);
+    color:var(--cream);
+  }
+  #institutions .lead{color:rgba(244,239,230,0.78)}
+  #institutions .blue{color:var(--accent)}
+  /* section number row — was tuned for cream */
+  #institutions .section-num .n,
+  #institutions .section-num .label{color:rgba(244,239,230,0.55)}
+  #institutions .section-num .line{background:var(--rule-black)}
+  /* pillars */
+  #institutions .pillars{border-top-color:var(--rule-black)}
+  #institutions .pillar{border-right-color:var(--rule-black)}
+  #institutions .pillar p{color:rgba(244,239,230,0.72)}
+  #institutions .pillar .num{color:rgba(244,239,230,0.45)}
+  /* compliance */
+  #institutions .compliance{border-top-color:var(--rule-black)}
+  #institutions .comp-item{border-top-color:var(--rule-black)}
+  #institutions .comp-item p{color:rgba(244,239,230,0.7)}
+  /* contact form */
+  #institutions .contact-form{border-top-color:rgba(244,239,230,0.5)}
+  #institutions .field{border-bottom-color:var(--rule-black)}
+  #institutions .field label{color:rgba(244,239,230,0.55)}
+  #institutions .field input,
+  #institutions .field select{color:var(--cream)}
+  #institutions .field input::placeholder{color:rgba(244,239,230,0.32)}
+  #institutions .field select option{background:var(--black);color:var(--cream)}
+  #institutions .alt-mail{color:rgba(244,239,230,0.62)}
+  #institutions .alt-mail a{border-bottom-color:rgba(244,239,230,0.3)}
+  /* CTA flips to cream-on-black */
+  #institutions .btn-dark{
+    background:var(--cream);color:var(--black);border-color:var(--cream);
+  }
+  #institutions .btn-dark:hover{background:#fff}
+  /* mobile fallbacks: pillar / stat dividers */
+  @media (max-width: 900px){
+    #institutions .pillar{border-bottom-color:var(--rule-black) !important}
+  }
+  /* Compliance block becomes a cream panel within the dark institutions section */
+  #institutions .compliance{
+    background:var(--cream);
+    color:var(--ink);
+    isolation:isolate;
+    /* Bleed beyond .wrap to span full viewport width */
+    margin-left:calc(50% - 50vw);
+    margin-right:calc(50% - 50vw);
+    padding-left:max(var(--pad), calc(50vw - var(--max)/2));
+    padding-right:max(var(--pad), calc(50vw - var(--max)/2));
+    padding-top:80px;
+    padding-bottom:80px;
+    border-top:none;
+    margin-top:120px;
+    position:relative;
+    z-index:2;
+  }
+  /* Re-light the heading / items on cream */
+  #institutions .compliance .subh{color:var(--ink)}
+  #institutions .compliance .comp-item{
+    border-top-color:var(--rule-cream) !important;
+  }
+  #institutions .compliance .comp-item strong{color:var(--ink)}
+  #institutions .compliance .comp-item p{color:rgba(14,14,14,0.7)}
+
+  /* Contact block continues the cream panel — flows directly out of compliance */
+  #institutions .compliance{padding-bottom:0}
+  /* Kill the section's bottom padding so the cream contact panel sits flush with the next cream section (no black gap below). */
+  #institutions{padding-bottom:0}
+  #institutions .contact{
+    background:var(--cream);
+    color:var(--ink);
+    isolation:isolate;
+    margin-left:calc(50% - 50vw);
+    margin-right:calc(50% - 50vw);
+    padding-left:max(var(--pad), calc(50vw - var(--max)/2));
+    padding-right:max(var(--pad), calc(50vw - var(--max)/2));
+    padding-top:120px;
+    padding-bottom:96px;
+    margin-top:0;
+    position:relative;
+    z-index:2;
+  }
+  /* Re-light contact form and copy on cream */
+  #institutions .contact .subh{color:var(--ink)}
+  #institutions .contact .lead{color:rgba(14,14,14,0.85)}
+  #institutions .contact-form{border-top-color:var(--ink) !important}
+  #institutions .contact .field{border-bottom-color:var(--rule-cream) !important}
+  #institutions .contact .field label{color:rgba(14,14,14,0.5)}
+  #institutions .contact .field input,
+  #institutions .contact .field select{color:var(--ink)}
+  #institutions .contact .field input::placeholder{color:rgba(14,14,14,0.3)}
+  #institutions .contact .field select option{background:var(--cream);color:var(--ink)}
+  #institutions .contact .alt-mail{color:rgba(14,14,14,0.6)}
+  #institutions .contact .alt-mail a{border-bottom-color:rgba(14,14,14,0.3)}
+  /* CTA flips back to dark-on-cream within the cream panel */
+  #institutions .contact .btn-dark{
+    background:var(--black);color:var(--cream);border-color:var(--black);
+  }
+  #institutions .contact .btn-dark:hover{background:#000}
+
+  /* portrait — institutions section, sits in the empty space right of the headline.
+     Photo is anchored to the right edge and fades out toward the LEFT into the section bg,
+     so it appears to emerge from the right margin. */
+  #institutions .wrap{position:relative}
+  #institutions .inst-portrait{
+    position:absolute;
+    top:0;
+    right:0;
+    width:min(25.5vw, 289px);
+    height:min(30.6vw, 357px);
+    background:url('assets/institutions-portrait.png') right center / cover no-repeat;
+    border-radius:18px;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:1;
+    opacity:0;
+    transform:translateX(18px);
+    transition:opacity 1.4s cubic-bezier(0.22,1,0.36,1), transform 1.4s cubic-bezier(0.22,1,0.36,1);
+    -webkit-mask-image: linear-gradient(to right,
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,0.25) 28%,
+      rgba(0,0,0,0.7) 60%,
+      rgba(0,0,0,0.95) 100%);
+            mask-image: linear-gradient(to right,
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,0.25) 28%,
+      rgba(0,0,0,0.7) 60%,
+      rgba(0,0,0,0.95) 100%);
+    filter:grayscale(1) contrast(0.95);
+  }
+  #institutions .inst-portrait.in-view{
+    opacity:0.595;
+    transform:translateX(0);
+  }
+  @media (max-width: 900px){
+    #institutions .inst-portrait{display:none}
+  }
+  @media (prefers-reduced-motion: reduce){
+    #institutions .inst-portrait{transition:opacity 0.4s linear}
+  }
+
+  /* ============ INSTITUTIONS (cream) ============ */
+
+  .pillars{
+    margin-top:96px;
+    display:grid;grid-template-columns:repeat(3, 1fr);
+    gap:0;
+    border-top:var(--rule-weight) solid var(--rule-cream);
+  }
+  .pillar{
+    padding:36px 32px 36px 0;
+    border-right:var(--rule-weight) solid var(--rule-cream);
+  }
+  .pillar:last-child{border-right:none;padding-right:0}
+  .pillar:not(:first-child){padding-left:32px}
+  .pillar h3{
+    font-size:24px;font-weight:500;letter-spacing:-0.02em;
+    margin-bottom:16px;
+  }
+  .pillar p{font-size:16px;line-height:1.55;color:rgba(14,14,14,0.78)}
+  .pillar .num{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.18em;
+    color:rgba(14,14,14,0.45);text-transform:uppercase;
+    margin-bottom:20px;display:block;
+  }
+
+  /* compliance */
+  .compliance{
+    margin-top:120px;
+    padding-top:48px;
+    border-top:var(--rule-weight) solid var(--rule-cream);
+  }
+  h3.subh{
+    font-size:calc(clamp(28px, 3.2vw, 40px) * var(--display-scale));
+    font-weight:400;letter-spacing:-0.025em;line-height:1.05;
+    max-width:24ch;margin-bottom:48px;
+    font-family:var(--serif-display);
+  }
+  .compliance-grid{
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:8px 64px;
+  }
+  .comp-item{
+    padding:24px 0;
+    border-top:1px solid var(--rule-cream);
+  }
+  .comp-item strong{
+    font-weight:500;display:block;margin-bottom:6px;font-size:16px;letter-spacing:-0.01em;
+  }
+  .comp-item p{font-size:15px;line-height:1.5;color:rgba(14,14,14,0.7)}
+
+  /* contact */
+  .contact{
+    margin-top:120px;
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0, 520px);
+    gap:80px;align-items:start;
+  }
+  .contact-form{
+    display:grid;grid-template-columns:1fr 1fr;gap:0;
+    border-top:1px solid var(--ink);
+  }
+  .field{
+    padding:18px 0 16px;
+    border-bottom:1px solid var(--rule-cream);
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .field.full{grid-column:1/-1}
+  .field label{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:0.18em;text-transform:uppercase;
+    color:rgba(14,14,14,0.5);
+  }
+  .field input, .field select{
+    background:transparent;border:none;outline:none;
+    font:inherit;font-size:18px;color:var(--ink);
+    padding:2px 0;
+  }
+  .field input::placeholder{color:rgba(14,14,14,0.3)}
+  .form-actions{
+    grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;
+    padding-top:28px;
+  }
+  .btn-dark{
+    background:var(--black);color:var(--cream);border-color:var(--black);
+  }
+  .btn-dark:hover{background:#000}
+  .alt-mail{font-size:14px;color:rgba(14,14,14,0.6)}
+  .alt-mail a{border-bottom:1px solid rgba(14,14,14,0.3)}
+
+  /* ============ PRODUCT (black) ============ */
+  .product-body{font-size:clamp(17px, 1.4vw, 20px);max-width:62ch;color:rgba(244,239,230,0.78)}
+  .phones{
+    margin-top:96px;
+    display:grid;grid-template-columns:repeat(4, 1fr);
+    gap:32px;
+  }
+  .screen{
+    margin:0;display:flex;flex-direction:column;align-items:center;gap:18px;
+  }
+  .screen img{
+    width:100%;height:auto;display:block;
+    filter: drop-shadow(0 30px 60px rgba(0,0,0,0.5));
+  }
+  .screen figcaption{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:0.16em;text-transform:uppercase;
+    color:rgba(244,239,230,0.55);text-align:center;
+  }
+  .phone-caption{
+    margin-top:48px;
+    display:grid;grid-template-columns:repeat(3, 1fr);
+    gap:24px 48px;
+    padding-top:28px;border-top:1px solid var(--rule-black);
+  }
+  .pcap{font-size:14px;color:rgba(244,239,230,0.7)}
+  .pcap strong{color:var(--cream);font-weight:500}
+
+  .appstore{
+    margin-top:64px;
+    display:flex;align-items:center;gap:24px;flex-wrap:wrap;
+  }
+  .as-badge{
+    display:inline-flex;align-items:center;gap:12px;
+    padding:12px 22px;border-radius:14px;
+    background:var(--cream);color:var(--black);
+    border:1px solid var(--cream);
+  }
+  .as-badge:hover{background:#fff}
+  .as-badge .apple{width:22px;height:26px;display:block;margin-bottom:2px}
+  .as-badge .lbl{display:flex;flex-direction:column;line-height:1.1}
+  .as-badge .lbl .small{font-size:10px;letter-spacing:0.06em;text-transform:uppercase;opacity:0.7}
+  .as-badge .lbl .big{font-size:17px;font-weight:500;letter-spacing:-0.01em}
+  .as-note{font-size:13px;color:rgba(244,239,230,0.6)}
+
+  /* ============ ADMIN DASHBOARD REVEAL TOGGLE ============ */
+  .dash-reveal{
+    margin-top:96px;
+    display:flex; flex-direction:column; align-items:stretch;
+    gap:0;
+  }
+  .dash-clip{
+    position:relative;
+    max-height: 188px;          /* ~20% peek — shows topbar + stage-head + status pills */
+    overflow:hidden;
+    border-radius:18px;
+    box-shadow:
+      0 24px 60px -28px rgba(14,14,14,0.28),
+      0 8px 22px -14px rgba(14,14,14,0.16);
+    transition: max-height 1.35s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.8s ease;
+    will-change: max-height;
+    transform: translateZ(0);
+  }
+  .dash-reveal.is-open .dash-clip{
+    box-shadow:
+      0 36px 80px -32px rgba(14,14,14,0.32),
+      0 12px 28px -18px rgba(14,14,14,0.18);
+  }
+  .dash-clip .admin-dash{ margin-top:0 }
+  .dash-fade{
+    position:absolute; left:0; right:0; bottom:0;
+    height: 110px;
+    background: linear-gradient(to bottom,
+      rgba(244,239,230,0) 0%,
+      rgba(244,239,230,0.55) 45%,
+      rgba(244,239,230,1) 95%);
+    pointer-events:none;
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+  }
+  .dash-reveal.is-open .dash-fade{ opacity:0 }
+
+  .dash-reveal-toggle{
+    align-self:center;
+    display:inline-flex; align-items:center; gap:18px;
+    padding:13px 16px 13px 28px;
+    margin-top:-28px;             /* float over the fade for a clean overlap */
+    position:relative; z-index:3;
+    border-radius:999px;
+    background: rgba(244,239,230,0.42);
+    backdrop-filter: blur(22px) saturate(150%);
+    -webkit-backdrop-filter: blur(22px) saturate(150%);
+    color: var(--ink);
+    border: 1px solid rgba(14,14,14,0.08);
+    font-family:'Geist', system-ui, sans-serif;
+    cursor:pointer;
+    transition: transform .2s ease, background .25s ease, box-shadow .25s ease, margin .5s cubic-bezier(.22,1,0.36,1), border-color .25s ease;
+    box-shadow:
+      0 18px 36px -18px rgba(14,14,14,0.22),
+      inset 0 1px 0 rgba(255,255,255,0.55);
+  }
+  .dash-reveal.is-open .dash-reveal-toggle{
+    opacity: 0;
+    transform: translateY(-12px);
+    pointer-events: none;
+    margin-top: 0;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    overflow: hidden;
+    transition:
+      opacity .35s ease,
+      transform .35s ease,
+      margin .45s cubic-bezier(.22,1,0.36,1) .15s,
+      max-height .45s cubic-bezier(.22,1,0.36,1) .15s,
+      padding .45s cubic-bezier(.22,1,0.36,1) .15s;
+  }
+  .dash-reveal-toggle:hover{
+    background: rgba(244,239,230,0.62);
+    border-color: rgba(14,14,14,0.12);
+    transform:translateY(-1px);
+    box-shadow:
+      0 22px 44px -18px rgba(14,14,14,0.28),
+      inset 0 1px 0 rgba(255,255,255,0.6);
+  }
+
+  /* gentle stagger of the revealed content rising into place */
+  @keyframes dashRevealRise{
+    from{ opacity:0; transform: translateY(6px); }
+    to  { opacity:1; transform: translateY(0); }
+  }
+  .dash-reveal.is-open .ad-kpi-row,
+  .dash-reveal.is-open .ad-grid > .ad-panel--chart,
+  .dash-reveal.is-open .ad-grid > .ad-panel:not(.ad-panel--chart),
+  .dash-reveal.is-open .ad-footnote{
+    animation: dashRevealRise 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .dash-reveal.is-open .ad-kpi-row                              { animation-delay: 0.22s }
+  .dash-reveal.is-open .ad-grid > .ad-panel--chart              { animation-delay: 0.38s }
+  .dash-reveal.is-open .ad-grid > .ad-panel:not(.ad-panel--chart){ animation-delay: 0.54s }
+  .dash-reveal.is-open .ad-footnote                             { animation-delay: 0.72s }
+
+  @media (prefers-reduced-motion: reduce){
+    .dash-clip,
+    .dash-fade,
+    .dash-reveal-toggle{ transition-duration: 0.2s !important }
+    .dash-reveal.is-open .ad-kpi-row,
+    .dash-reveal.is-open .ad-grid > .ad-panel,
+    .dash-reveal.is-open .ad-footnote{ animation: none }
+  }
+  .dash-reveal-toggle .lbl{
+    display:flex; flex-direction:column; line-height:1.15; text-align:left;
+  }
+  .dash-reveal-toggle .lbl small{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px; letter-spacing:0.18em; text-transform:uppercase;
+    color:rgba(14,14,14,0.5);
+    margin-bottom:4px;
+  }
+  .dash-reveal-toggle .lbl-text{
+    font-size:15.5px; font-weight:500; letter-spacing:-0.005em;
+  }
+  .dash-reveal-toggle .lbl-text::before{ content:"Preview the admin dashboard" }
+  .dash-reveal.is-open .dash-reveal-toggle .lbl-text::before{ content:"Hide admin dashboard" }
+  .dash-reveal-toggle .arrow{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:34px; height:34px; border-radius:50%;
+    background:rgba(14,14,14,0.08);
+    font-size:14px; line-height:1;
+    color:var(--ink);
+    transition: transform .35s cubic-bezier(.2,.8,.2,1), background .2s ease;
+  }
+  .dash-reveal-toggle:hover .arrow{ background:rgba(14,14,14,0.14) }
+  .dash-reveal.is-open .dash-reveal-toggle .arrow{ transform: rotate(180deg) }
+
+  @media (max-width: 900px){
+    .dash-clip{ max-height:148px }
+  }
+
+  /* ============ ADMIN DASHBOARD MOCKUP ============ */
+  .admin-dash{
+    margin-top:96px;
+    position:relative;
+    background:#FBF8F1;
+    border:1px solid rgba(14,14,14,0.10);
+    border-radius:18px;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.6) inset,
+      0 24px 60px -28px rgba(14,14,14,0.28),
+      0 8px 22px -14px rgba(14,14,14,0.16);
+    overflow:hidden;
+    font-family:'Geist', system-ui, sans-serif;
+    color:var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  /* mock-up tag */
+  .admin-dash::before{
+    content:"MOCK-UP / SBCC ADMIN VIEW";
+    position:absolute; top:14px; right:18px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:9.5px; letter-spacing:0.16em;
+    color:rgba(14,14,14,0.35);
+    z-index:5;
+  }
+
+  /* topbar */
+  .ad-topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 20px;
+    background:#F4EFE6;
+    border-bottom:1px solid rgba(14,14,14,0.08);
+    gap:24px;
+  }
+  .ad-brand{display:flex; align-items:center; gap:10px; flex:none}
+  .ad-mark{
+    width:22px; height:22px; flex:none;
+    background:url('assets/flower-of-life-dark.png') center/contain no-repeat;
+    opacity:0.85;
+  }
+  .ad-title{font-size:14px; letter-spacing:-0.01em; color:var(--ink)}
+  .ad-title strong{font-weight:600}
+  .ad-divider{color:rgba(14,14,14,0.3); margin:0 6px}
+  .ad-tenant{color:rgba(14,14,14,0.65)}
+
+  .ad-tabs{
+    display:flex; gap:2px; align-items:center;
+    background:rgba(14,14,14,0.045);
+    padding:3px;
+    border-radius:10px;
+    font-size:12.5px;
+  }
+  .ad-tab{
+    border:0; background:transparent; cursor:default;
+    padding:7px 14px; border-radius:7px;
+    font:inherit; font-size:12.5px; font-weight:500;
+    color:rgba(14,14,14,0.62);
+    letter-spacing:-0.005em;
+  }
+  .ad-tab.is-active{
+    background:#FBF8F1;
+    color:var(--ink);
+    box-shadow:0 1px 2px rgba(14,14,14,0.06), 0 0 0 1px rgba(14,14,14,0.06);
+  }
+
+  .ad-meta{display:flex; align-items:center; gap:14px; flex:none}
+  .ad-range{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px; letter-spacing:0.04em;
+    color:rgba(14,14,14,0.62);
+    padding:6px 10px;
+    border:1px solid rgba(14,14,14,0.10);
+    border-radius:7px;
+    background:#FBF8F1;
+  }
+  .ad-user{
+    width:28px; height:28px; border-radius:50%;
+    background:var(--accent);
+    color:#fff;
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:11.5px; font-weight:600; letter-spacing:0.02em;
+  }
+
+  /* stage */
+  .ad-stage{padding:28px 28px 24px}
+  .ad-stage-head{
+    display:flex; align-items:flex-end; justify-content:space-between; gap:18px;
+    margin-bottom:24px;
+  }
+  .ad-eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px; letter-spacing:0.16em; text-transform:uppercase;
+    color:rgba(14,14,14,0.5);
+    margin:0 0 8px;
+  }
+  .ad-h{
+    font-family:var(--serif-display);
+    font-size:32px; font-weight:400; letter-spacing:-0.025em;
+    line-height:1.05; margin:0;
+  }
+  .ad-stage-actions{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+  .ad-pill{
+    display:inline-flex; align-items:center; gap:7px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px; letter-spacing:0.08em;
+    color:rgba(14,14,14,0.62);
+    padding:6px 10px;
+    border:1px solid rgba(14,14,14,0.10);
+    border-radius:999px;
+    background:#FBF8F1;
+  }
+  .ad-pill .dot{
+    width:6px; height:6px; border-radius:50%;
+    background:#1FA862;
+    box-shadow:0 0 0 3px rgba(31,168,98,0.16);
+  }
+  .ad-pill--live{color:var(--ink)}
+
+  /* KPI row */
+  .ad-kpi-row{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    border:1px solid rgba(14,14,14,0.10);
+    border-radius:12px;
+    overflow:hidden;
+    background:#fff;
+    margin-bottom:20px;
+  }
+  .ad-kpi{
+    padding:18px 20px 20px;
+    border-right:1px solid rgba(14,14,14,0.08);
+    display:flex; flex-direction:column; gap:8px;
+    min-width:0;
+  }
+  .ad-kpi:last-child{border-right:none}
+  .ad-kpi-lbl{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px; letter-spacing:0.14em; text-transform:uppercase;
+    color:rgba(14,14,14,0.55);
+  }
+  .ad-kpi-val{
+    font-family:var(--serif-display);
+    font-size:36px; line-height:1; letter-spacing:-0.03em; font-weight:400;
+    color:var(--ink);
+  }
+  .ad-kpi-delta{
+    font-size:12px;
+    color:rgba(14,14,14,0.55);
+    letter-spacing:-0.005em;
+  }
+  .ad-kpi-delta em{font-style:normal; color:rgba(14,14,14,0.45); margin-left:4px}
+  .ad-kpi-delta.up{color:#177a4e}
+  .ad-kpi-delta.down{color:#b04545}
+
+  /* grid: chart + side panel */
+  .ad-grid{
+    display:grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+    gap:14px;
+    margin-bottom:14px;
+  }
+  .ad-panel{
+    background:#fff;
+    border:1px solid rgba(14,14,14,0.10);
+    border-radius:12px;
+    padding:18px 18px 20px;
+    min-width:0;
+  }
+  .ad-panel-head{
+    display:flex; justify-content:space-between; align-items:flex-start; gap:14px;
+    margin-bottom:14px;
+  }
+  .ad-panel-title{
+    font-size:15px; font-weight:500; letter-spacing:-0.015em;
+    color:var(--ink); margin:0;
+  }
+  .ad-legend{
+    display:flex; gap:14px; align-items:center;
+    font-size:11.5px; color:rgba(14,14,14,0.6);
+    font-family:'JetBrains Mono', monospace; letter-spacing:0.04em;
+  }
+  .ad-legend span{display:inline-flex; align-items:center; gap:6px}
+  .sw{width:10px; height:2px; border-radius:1px; display:inline-block}
+  .sw-1{background:var(--accent)}
+  .sw-2{background:#D49B3F}
+
+  /* chart */
+  .ad-chart{
+    position:relative;
+    height:240px;
+    width:100%;
+  }
+  .ad-chart svg{display:block; width:100%; height:100%}
+  .ad-chart .gridline{stroke:rgba(14,14,14,0.07); stroke-width:1}
+  .ad-chart .axis-tick{
+    font-family:'JetBrains Mono', monospace;
+    font-size:9.5px; letter-spacing:0.06em;
+    fill:rgba(14,14,14,0.45);
+  }
+  .ad-chart .y-tick{text-anchor:end}
+  .ad-chart .x-tick{text-anchor:middle}
+  .ad-chart .area-1{fill:var(--accent); opacity:0.10}
+  .ad-chart .area-2{fill:#D49B3F; opacity:0.08}
+  .ad-chart .line-1{fill:none; stroke:var(--accent); stroke-width:2; stroke-linejoin:round; stroke-linecap:round}
+  .ad-chart .line-2{fill:none; stroke:#D49B3F; stroke-width:1.6; stroke-linejoin:round; stroke-linecap:round; stroke-dasharray:none}
+  .ad-chart .dot-1{fill:#fff; stroke:var(--accent); stroke-width:1.8}
+  .ad-chart .dot-2{fill:#fff; stroke:#D49B3F; stroke-width:1.5}
+  .ad-chart .anno-line{stroke:rgba(14,14,14,0.35); stroke-width:1; stroke-dasharray:3 3}
+  .ad-chart .anno-lbl{
+    font-family:'JetBrains Mono', monospace;
+    font-size:9.5px; letter-spacing:0.06em;
+    fill:rgba(14,14,14,0.6);
+  }
+  /* bar styles (reused by mini bar chart) */
+  .ad-chart .bar{ fill: var(--accent); opacity:0.9 }
+  .ad-chart .bar.weekend{ fill: rgba(14,14,14,0.22); opacity:1 }
+
+  /* secondary mini chart inside the primary chart panel */
+  .ad-subhead{
+    margin-top:18px; padding-top:14px;
+    border-top:1px solid rgba(14,14,14,0.08);
+    display:flex; justify-content:space-between; align-items:flex-end;
+    gap:14px;
+  }
+  .ad-subhead .ad-panel-title{ font-size:13.5px }
+  .ad-subhead .ad-eyebrow{ margin:0 }
+  .ad-subhead .ad-mini-legend{
+    display:flex; gap:12px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px; letter-spacing:0.04em;
+    color:rgba(14,14,14,0.55);
+  }
+  .ad-subhead .ad-mini-legend span{ display:inline-flex; align-items:center; gap:6px }
+  .ad-subhead .ad-mini-legend .sw{ width:10px; height:8px; border-radius:2px }
+  .ad-subhead .ad-mini-legend .sw.weekday{ background:var(--accent) }
+  .ad-subhead .ad-mini-legend .sw.weekend{ background:rgba(14,14,14,0.22) }
+  .ad-chart-mini{ height:140px; margin-top:8px }
+  .ad-chart-mini svg{ display:block; width:100%; height:100% }
+  /* bar chart variant */
+  .ad-chart .bar{ fill: var(--accent); opacity:0.9 }
+  .ad-chart .bar.weekend{ fill: rgba(14,14,14,0.20); opacity:1 }
+  .ad-chart .bar.today{ fill: var(--accent); opacity:1 }
+  .ad-chart .bar-cap{
+    fill: var(--accent); opacity:1;
+  }
+
+  /* show-more toggle */
+  .ad-more{ margin-top: 14px }
+  .ad-more summary{ list-style:none; cursor:pointer; user-select:none; outline:none }
+  .ad-more summary::-webkit-details-marker{ display:none }
+  .ad-more-toggle{
+    display:flex; align-items:center; gap:14px;
+    padding:12px 4px 6px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px; letter-spacing:0.16em; text-transform:uppercase;
+    color:rgba(14,14,14,0.6);
+    transition: color .2s ease;
+  }
+  .ad-more-toggle:hover{ color:var(--ink) }
+  .ad-more-rule{ flex:1; height:1px; background:rgba(14,14,14,0.10) }
+  .ad-more-label{ flex:none; position:relative; min-width:80px; text-align:center }
+  .ad-more-label::before{ content:"Show more" }
+  .ad-more[open] .ad-more-label::before{ content:"Show less" }
+  .ad-more-arrow{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:24px; height:24px; border-radius:50%;
+    border:1px solid rgba(14,14,14,0.18);
+    background:#fff;
+    font-size:11px; line-height:1;
+    color:var(--ink);
+    transition: transform .3s cubic-bezier(.2,.8,.2,1), border-color .2s ease, background .2s ease;
+  }
+  .ad-more-toggle:hover .ad-more-arrow{ border-color:rgba(14,14,14,0.45); background:#FBF8F1 }
+  .ad-more[open] .ad-more-arrow{ transform: rotate(180deg) }
+  .ad-more-body{
+    display:flex; flex-direction:column; gap:14px;
+    padding-top:14px;
+  }
+  .ad-more-body .ad-grid{ margin-bottom:0 }
+
+  /* top resources list */
+  .ad-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column}
+  .ad-list li{
+    display:grid;
+    grid-template-columns: 22px minmax(0, 1fr) auto;
+    align-items:center; gap:12px;
+    padding:10px 0;
+    border-top:1px solid rgba(14,14,14,0.07);
+  }
+  .ad-list li:first-child{border-top:none; padding-top:4px}
+  .ad-list .rank{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px; letter-spacing:0.08em;
+    color:rgba(14,14,14,0.4);
+  }
+  .ad-list .row-main{display:flex; flex-direction:column; gap:2px; min-width:0}
+  .ad-list .row-title{
+    font-size:13.5px; font-weight:500; letter-spacing:-0.01em;
+    color:var(--ink);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .ad-list .row-sub{
+    font-size:11.5px; color:rgba(14,14,14,0.5);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .ad-list .row-stat{
+    display:flex; flex-direction:column; align-items:flex-end; gap:1px; flex:none;
+  }
+  .ad-list .row-num{
+    font-size:14px; font-weight:500;
+    color:var(--ink);
+  }
+  .ad-list .row-delta{font-size:11px; letter-spacing:-0.005em}
+  .ad-list .row-delta.up{color:#177a4e}
+  .ad-list .row-delta.down{color:#b04545}
+
+  /* equity panel */
+  .ad-equity{
+    background:#fff;
+    border:1px solid rgba(14,14,14,0.10);
+    border-radius:12px;
+    padding:18px 22px 22px;
+    margin-bottom:14px;
+  }
+  .ad-link{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px; letter-spacing:0.08em;
+    color:var(--accent);
+    border-bottom:1px solid var(--accent-soft);
+    padding-bottom:1px;
+  }
+  .ad-equity-bars{
+    display:grid;
+    grid-template-columns: minmax(140px, 180px) minmax(0, 1fr) auto;
+    column-gap:22px; row-gap:14px;
+    align-items:center;
+  }
+  .ad-eq-row-name{
+    font-size:13.5px; color:var(--ink); letter-spacing:-0.005em;
+  }
+  .ad-eq-row-name small{
+    display:block;
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px; letter-spacing:0.1em; text-transform:uppercase;
+    color:rgba(14,14,14,0.45);
+    margin-top:2px;
+  }
+  .ad-eq-bars{
+    position:relative;
+    height:24px;
+    display:flex; flex-direction:column; gap:4px;
+  }
+  .ad-eq-bar{
+    height:10px; border-radius:3px;
+    background:rgba(14,14,14,0.06);
+    position:relative; overflow:hidden;
+  }
+  .ad-eq-bar .fill{
+    position:absolute; left:0; top:0; bottom:0;
+    border-radius:3px;
+  }
+  .ad-eq-bar .fill.cohort{background:rgba(14,14,14,0.35)}
+  .ad-eq-bar .fill.reach{background:var(--accent)}
+  .ad-eq-vals{
+    display:flex; gap:14px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px; letter-spacing:0.02em;
+    color:rgba(14,14,14,0.65);
+    white-space:nowrap;
+    text-align:right;
+  }
+  .ad-eq-vals span strong{
+    color:var(--ink);
+    font-weight:500;
+    margin-right:4px;
+  }
+  .ad-eq-legend{
+    grid-column:1 / -1;
+    display:flex; gap:18px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px; letter-spacing:0.08em;
+    color:rgba(14,14,14,0.55);
+    padding-top:6px; margin-top:4px;
+    border-top:1px solid rgba(14,14,14,0.07);
+  }
+  .ad-eq-legend span{display:inline-flex; align-items:center; gap:7px}
+  .ad-eq-legend .sw{width:12px; height:3px; border-radius:2px}
+  .ad-eq-legend .sw.cohort{background:rgba(14,14,14,0.35)}
+  .ad-eq-legend .sw.reach{background:var(--accent)}
+
+  .ad-footnote{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px; letter-spacing:0.1em; text-transform:uppercase;
+    color:rgba(14,14,14,0.42);
+    padding:14px 0 0;
+    border-top:1px solid rgba(14,14,14,0.07);
+    margin-top:6px;
+  }
+
+  @media (max-width: 900px){
+    .ad-tabs{display:none}
+    .ad-kpi-row{grid-template-columns:1fr 1fr}
+    .ad-kpi{border-bottom:1px solid rgba(14,14,14,0.08)}
+    .ad-kpi:nth-child(2){border-right:none}
+    .ad-kpi:nth-child(3),
+    .ad-kpi:nth-child(4){border-bottom:none}
+    .ad-grid{grid-template-columns:1fr}
+    .ad-equity-bars{grid-template-columns:1fr; row-gap:8px}
+    .ad-eq-vals{justify-content:flex-start}
+    .ad-stage{padding:20px 18px}
+    .ad-h{font-size:26px}
+    .ad-kpi-val{font-size:30px}
+    .admin-dash::before{display:none}
+  }
+
+  /* ============ WHY (cream) ============ */
+  .stats{
+    margin-top:64px;
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:0;
+    border-top:calc(var(--rule-weight) * 1.4) solid var(--ink);
+  }
+  .stat{
+    padding:36px 32px 36px 0;
+    border-right:var(--rule-weight) solid var(--rule-cream);
+  }
+  .stat:not(:first-child){padding-left:32px}
+  .stat:last-child{border-right:none;padding-right:0}
+  .stat .num{
+    font-size:calc(clamp(72px, 9vw, 128px) * var(--display-scale));
+    line-height:0.95;letter-spacing:-0.04em;font-weight:300;
+    margin-bottom:20px;
+    font-family:var(--serif-display);
+  }
+  .stat .lbl{font-size:16px;line-height:1.45;color:rgba(14,14,14,0.85);max-width:26ch;margin-bottom:16px}
+  .stat .src{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(14,14,14,0.45)}
+  /* scroll-triggered reveal */
+  .stat{opacity:0;transform:translateY(20px);transition:opacity 1.1s cubic-bezier(0.22,1,0.36,1), transform 1.1s cubic-bezier(0.22,1,0.36,1)}
+  .stat.in-view{opacity:1;transform:translateY(0)}
+  .stat .num .pct{display:inline-block}
+  .stat .num{font-variant-numeric: tabular-nums}
+  @media (prefers-reduced-motion: reduce){
+    .stat{transition:opacity 0.3s linear;transform:none}
+  }
+  .why-close{
+    margin-top:96px;font-size:calc(clamp(24px, 2.6vw, 34px) * var(--display-scale));
+    font-weight:400;letter-spacing:-0.025em;line-height:1.2;
+    max-width:42ch;
+  }
+  .why-close .em{font-weight:500}
+
+  /* ============ TEAM (black) ============ */
+  .team-lead{font-size:clamp(18px, 1.4vw, 21px);color:rgba(244,239,230,0.78);max-width:46ch;margin-bottom:80px}
+  .founders{
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:0 80px;
+    border-top:1px solid var(--rule-black);
+  }
+  .founder{
+    padding-top:48px;
+    display:grid;grid-template-columns:140px 1fr;gap:32px;align-items:start;
+  }
+  .founder .photo{
+    position:relative;
+    width:140px;height:140px;border-radius:50%;
+    padding:3px;
+    background:
+      conic-gradient(from 220deg,
+        var(--accent-conic-1) 0deg,
+        var(--accent-conic-2) 110deg,
+        var(--accent-conic-3) 220deg,
+        var(--accent-conic-4) 320deg,
+        var(--accent-conic-1) 360deg);
+    box-shadow:0 0 0 1px rgba(244,239,230,0.04), 0 0 28px -8px var(--accent-glow);
+    transition: background .6s ease, box-shadow .6s ease;
+  }
+  .founder .photo::before{
+    content:"";
+    position:absolute;inset:3px;
+    border-radius:50%;
+    background-color:#1f1f1f;
+    background-position:center;
+    background-size:cover;
+    background-repeat:no-repeat;
+    box-shadow:inset 0 0 0 2px var(--black);
+  }
+  .founder .photo.j::before{background-image:url('assets/founder-jacob-circle.png')}
+  .founder .photo.e::before{background-image:url('assets/founder-ervin-circle.png')}
+  .founder .name{font-size:24px;font-weight:500;letter-spacing:-0.02em;margin-bottom:4px}
+  .founder .role{font-size:13px;font-family:'JetBrains Mono',monospace;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:18px}
+  .founder p{font-size:15.5px;line-height:1.55;color:rgba(244,239,230,0.72)}
+
+  /* ============ FOOTER (photo) ============ */
+  footer{
+    position:relative;isolation:isolate;
+    background:#0b0d12 url('assets/footer-bg.jpeg') center top/cover no-repeat;
+    color:#f4efe6;
+    padding:80px var(--pad) 0;
+    min-height:608px;
+    display:flex;flex-direction:column;
+    border-top:1px solid rgba(244,239,230,0.08);
+  }
+  footer::before{
+    content:"";position:absolute;inset:0;z-index:-1;
+    background:linear-gradient(180deg, rgba(11,13,18,0.45) 0%, rgba(11,13,18,0.25) 35%, rgba(11,13,18,0.15) 60%, rgba(11,13,18,0.55) 100%);
+  }
+  .ftr-grid{
+    max-width:var(--max);margin:0 auto;
+    display:grid;grid-template-columns:1.4fr 1fr 1fr 1.4fr;
+    gap:48px;align-items:start;
+  }
+  .ftr-col h4{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:0.18em;text-transform:uppercase;color:rgba(244,239,230,0.55);
+    font-weight:400;margin-bottom:20px;
+  }
+  .ftr-col p, .ftr-col a{font-size:15px;line-height:1.55;color:rgba(244,239,230,0.88);display:block;margin-bottom:6px}
+  .ftr-col a.wm{
+    display:inline-flex; align-items:center; gap:1px;
+    font-size:24px; font-weight:700;
+    margin-bottom:14px;
+  }
+  .ftr-col a.wm .wm-mark{
+    display:inline-block; flex:none;
+    width:40px; height:50px;
+    margin:0 4px 0 0;
+  }
+  .ftr-col a:hover{color:#fff;text-decoration:underline}
+  .ftr-col a.ftr-btn{
+    display:inline-flex;align-items:center;gap:6px;
+    margin-top:14px;padding:0;border:0;background:transparent;
+    font-size:14px;font-weight:400;letter-spacing:0;
+    color:rgba(244,239,230,0.72);
+    border-bottom:1px solid rgba(244,239,230,0.25);
+    padding-bottom:2px;border-radius:0;
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .ftr-col a.ftr-btn:hover{color:#fff;border-color:#fff;background:transparent;transform:none;text-decoration:none}
+  .ftr-col a.ftr-btn .arrow{transition:transform .2s ease}
+  .ftr-col a.ftr-btn:hover .arrow{transform:translate(2px,0)}
+  footer .as-badge{color:var(--ink)}
+  footer .as-badge:hover{text-decoration:none;color:var(--ink)}
+  .ftr-tag{font-size:14px;color:rgba(244,239,230,0.62);margin-top:12px;max-width:30ch;line-height:1.5}
+  .pledge{font-size:14px;line-height:1.5;color:rgba(244,239,230,0.75);max-width:34ch}
+  /* Shimmer sweep on the 1% pledge — fires on scroll-into-view and on hover */
+  .pledge.shimmer-active{
+    background:linear-gradient(100deg,
+      rgba(244,239,230,0.75) 38%,
+      rgba(255,255,255,1) 50%,
+      rgba(244,239,230,0.75) 62%);
+    background-size:250% 100%;
+    background-position:200% 0;
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    color:transparent;
+    animation:pledgeShimmer 2.2s cubic-bezier(0.4,0,0.2,1) forwards;
+  }
+  @keyframes pledgeShimmer{
+    0%   { background-position: 200% 0 }
+    100% { background-position: -100% 0 }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .pledge.shimmer-active{ animation: none; color: rgba(244,239,230,0.75); -webkit-text-fill-color: rgba(244,239,230,0.75); background: none; }
+  }
+  .ftr-bottom{
+    max-width:var(--max);width:100%;margin:auto auto 0;
+    padding:24px 0;border-top:1px solid rgba(244,239,230,0.18);
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(244,239,230,0.7);
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 900px){
+    .hero-grid{grid-template-columns:1fr}
+    .hero-meta{margin-top:32px;max-width:none}
+    .pillars{grid-template-columns:1fr;border-top:1px solid var(--rule-cream)}
+    .pillar{border-right:none;border-bottom:1px solid var(--rule-cream);padding:32px 0}
+    .pillar:not(:first-child){padding-left:0}
+    .compliance-grid{grid-template-columns:1fr;gap:0}
+    .contact{grid-template-columns:1fr;gap:48px}
+    .contact-form{grid-template-columns:1fr}
+    .phones{grid-template-columns:repeat(2,1fr)}
+    .phone-caption{grid-template-columns:1fr;gap:18px}
+    .stats{grid-template-columns:1fr}
+    .stat{border-right:none;border-bottom:1px solid var(--rule-cream);padding:32px 0}
+    .stat:not(:first-child){padding-left:0}
+    .founders{grid-template-columns:1fr;gap:48px}
+    .founder{padding-top:32px}
+    .ftr-grid{grid-template-columns:1fr 1fr;gap:40px}
+    .hero-nav .right{display:none}
+  }
+  /* ============ LOADING SCREEN ============ */
+  /* Timeline:
+     0.00s — first flower travels in from left, lands at center (0.7s)
+     0.55s — second flower travels in from right, lands at center
+     1.10s — third flower travels in from above, lands at center
+     1.95s — three flowers disperse outward
+     2.10s — black panel slides up to reveal page (0.9s)
+  */
+  .nq-loader{
+    position:fixed; inset:0; z-index:9999;
+    background: var(--black);
+    overflow:hidden;
+    will-change:transform;
+    animation: nqLoaderSlideUp 0.85s cubic-bezier(0.76, 0, 0.24, 1) 1.85s forwards;
+  }
+  .nq-loader::before{
+    content:""; position:absolute; inset:0;
+    background-image:
+      radial-gradient(rgba(255,255,255,0.045) 0.6px, transparent 0.7px);
+    background-size: 2.6px 2.6px;
+    mix-blend-mode:overlay; opacity:0.6;
+    pointer-events:none;
+  }
+  .nq-loader-stage{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .nq-flower{
+    position:absolute;
+    width: clamp(160px, 22vw, 280px);
+    height: clamp(160px, 22vw, 280px);
+    background:url('assets/flower-of-life-white.png') center/contain no-repeat;
+    opacity:0;
+    will-change: transform, opacity;
+    /* Each flower lands at its own offset around the center —
+       close together but not overlapping. Cluster ~ flower-size wide. */
+    --tx: 0px;
+    --ty: 0px;
+  }
+  .nq-flower--1{ --tx: clamp(-150px, -10vw, -100px); --ty: clamp(60px, 5vw, 90px); }   /* lower-left */
+  .nq-flower--2{ --tx: clamp(100px, 10vw, 150px);    --ty: clamp(60px, 5vw, 90px); }   /* lower-right */
+  .nq-flower--3{ --tx: 0px;                           --ty: clamp(-160px, -12vw, -110px); } /* top-center */
+  /* Each flower has two phases:
+     1) travel-in (custom per flower) — translates from offscreen to center, fades in
+     2) disperse — translates outward, fades + scales away
+     We chain them as separate animations on the same element. */
+  .nq-flower--1{
+    animation:
+      nqFlowerInLeft 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0s forwards,
+      nqFlowerOutLeft 1.15s cubic-bezier(0.33, 0, 0.67, 1) 1.55s forwards;
+  }
+  .nq-flower--2{
+    animation:
+      nqFlowerInRight 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.42s forwards,
+      nqFlowerOutRight 1.15s cubic-bezier(0.33, 0, 0.67, 1) 1.55s forwards;
+  }
+  .nq-flower--3{
+    animation:
+      nqFlowerInTop 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.85s forwards,
+      nqFlowerOutTop 1.15s cubic-bezier(0.33, 0, 0.67, 1) 1.55s forwards;
+  }
+
+  @keyframes nqFlowerInLeft{
+    0%   { opacity:0; transform: translate(calc(-60vw + var(--tx)), var(--ty)) scale(0.85) rotate(-30deg) }
+    60%  { opacity:1 }
+    100% { opacity:1; transform: translate(var(--tx), var(--ty)) scale(1) rotate(0deg) }
+  }
+  @keyframes nqFlowerInRight{
+    0%   { opacity:0; transform: translate(calc(60vw + var(--tx)), var(--ty)) scale(0.85) rotate(30deg) }
+    60%  { opacity:1 }
+    100% { opacity:1; transform: translate(var(--tx), var(--ty)) scale(1) rotate(0deg) }
+  }
+  @keyframes nqFlowerInTop{
+    0%   { opacity:0; transform: translate(var(--tx), calc(-60vh + var(--ty))) scale(0.85) rotate(45deg) }
+    60%  { opacity:1 }
+    100% { opacity:1; transform: translate(var(--tx), var(--ty)) scale(1) rotate(0deg) }
+  }
+  @keyframes nqFlowerOutLeft{
+    from { opacity:1; transform: translate(var(--tx), var(--ty)) scale(1) rotate(0deg) }
+    to   { opacity:1; transform: translate(calc(var(--tx) - 22vw), calc(var(--ty) + 8vh)) scale(0.92) rotate(-22deg) }
+  }
+  @keyframes nqFlowerOutRight{
+    from { opacity:1; transform: translate(var(--tx), var(--ty)) scale(1) rotate(0deg) }
+    to   { opacity:1; transform: translate(calc(var(--tx) + 22vw), calc(var(--ty) + 8vh)) scale(0.92) rotate(22deg) }
+  }
+  @keyframes nqFlowerOutTop{
+    from { opacity:1; transform: translate(var(--tx), var(--ty)) scale(1) rotate(0deg) }
+    to   { opacity:1; transform: translate(var(--tx), calc(var(--ty) - 18vh)) scale(0.92) rotate(40deg) }
+  }
+  @keyframes nqLoaderSlideUp{
+    from{ transform: translateY(0) }
+    to  { transform: translateY(-100%); visibility:hidden }
+  }
+  /* ============ HERO ENTRANCE (after loader slides up) ============ */
+  /* Loader timeline ends at 2.70s; we begin hero entrance slightly before
+     the cover fully clears so the first item is already arriving as it leaves. */
+  .hero-h,
+  .hero-sub,
+  .cta-row{
+    opacity:0;
+    transform: translateY(14px);
+    will-change: opacity, transform;
+    animation: nqHeroIn 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .hero-h    { animation-delay: 2.45s }
+  .hero-sub  { animation-delay: 2.70s }
+  .cta-row   { animation-delay: 2.92s }
+  .hero-meta{
+    opacity:0;
+    will-change: opacity;
+    animation: nqHeroFade 1.1s cubic-bezier(0.22, 1, 0.36, 1) 3.12s forwards;
+  }
+  @keyframes nqHeroFade{
+    to{ opacity:1 }
+  }
+  @keyframes nqHeroIn{
+    to{ opacity:1; transform: translateY(0) }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .hero-h, .hero-sub, .cta-row, .hero-meta{
+      animation-duration: 0.3s;
+      animation-delay: 1.4s;
+    }
+  }
+  .nq-loader.is-done{ display:none }
+  @media (prefers-reduced-motion: reduce){
+    .nq-loader{ animation-delay: 0.6s; animation-duration: 0.4s }
+    .nq-flower--1, .nq-flower--2, .nq-flower--3{
+      animation: nqFlowerInTop 0.3s ease forwards;
+    }
+  }
+</style>
 </head>
 <body>
-    <nav id="mainNav">
-        <a href="#" class="nav-logo">
-            <img src="logo.png" alt="neoQuad Logo">
-            <span>neoQuad</span>
-        </a>
-        <ul class="nav-links">
-            <li><a href="#features">Features</a></li>
-            <li><a href="#screenshots">App</a></li>
-            <!-- <li><a href="events.html">Events</a></li> -->
-            <li><a href="#about">Our Story</a></li>
-            <li><a href="#how-it-works">How It Works</a></li>
-            <li><a href="admin.html" class="nav-highlight">For Schools</a></li>
-        </ul>
-        <a href="#download" class="nav-cta">Download</a>
-    </nav>
 
-    <section class="hero">
-        <div class="hero-bg">
-            <div class="hero-glow hero-glow-1"></div>
-            <div class="hero-glow hero-glow-2"></div>
-        </div>
-        <div class="hero-content">
-            <div class="hero-badge">
-                <span class="hero-badge-dot"></span>
-                Now Ready to Launch!
-            </div>
-            <h1 class="hero-title">Never miss<br><span>a moment.</span></h1>
-            <p class="hero-subtitle">
-                Discover campus events, connect with clubs, and make the most of your college experience. All in one beautiful app.
-            </p>
-            <div class="hero-cta">
-                <a href="https://apps.apple.com/us/app/neoquad/id6757087245" class="btn-primary">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-                    Download for iOS
-                </a>
-                <a href="#screenshots" class="btn-secondary">See it in action →</a>
-            </div>
-        </div>
-        <div class="hero-phone reveal">
-            <div class="hero-phone-frame">
-                <div class="hero-phone-screen">
-                    <img src="screenshot1.png" alt="NEOquad Map View">
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- ====================== LOADING SCREEN ====================== -->
+<div class="nq-loader" id="nqLoader" aria-hidden="true">
+  <div class="nq-loader-stage">
+    <div class="nq-flower nq-flower--1"></div>
+    <div class="nq-flower nq-flower--2"></div>
+    <div class="nq-flower nq-flower--3"></div>
+  </div>
+</div>
+<script>
+  (function(){
+    var el = document.getElementById('nqLoader');
+    if(!el) return;
+    el.addEventListener('animationend', function(e){
+      if(e.animationName === 'nqLoaderSlideUp'){ el.classList.add('is-done'); }
+    });
+  })();
+</script>
 
-    <section class="features" id="features">
-        <div class="section-header reveal">
-            <span class="section-label">Features</span>
-            <h2 class="section-title">Everything you need, nothing you don't.</h2>
-            <p class="section-subtitle">Built by students, for students. We know what matters on campus.</p>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card reveal">
-                <div class="feature-icon">🗺️</div>
-                <h3 class="feature-title">Interactive Map</h3>
-                <p class="feature-description">See every event happening on campus, right on the map. Tap any pin to get details, RSVP, and get directions instantly.</p>
-            </div>
-            <div class="feature-card reveal">
-                <div class="feature-icon">📅</div>
-                <h3 class="feature-title">Smart Calendar</h3>
-                <p class="feature-description">Browse events by day, see what's happening now, and track everything you're going to in one clean view.</p>
-            </div>
-            <div class="feature-card reveal">
-                <div class="feature-icon">🏛️</div>
-                <h3 class="feature-title">Building Directory</h3>
-                <p class="feature-description">Find any building on campus with turn-by-turn directions. Academic halls, admin offices, and hidden gems.</p>
-            </div>
-            <div class="feature-card reveal">
-                <div class="feature-icon">👥</div>
-                <h3 class="feature-title">Club Discovery</h3>
-                <p class="feature-description">Explore every club on campus. See their events, meeting schedules, and connect with communities that match your interests.</p>
-            </div>
-            <div class="feature-card reveal">
-                <div class="feature-icon">✅</div>
-                <h3 class="feature-title">One-Tap RSVP</h3>
-                <p class="feature-description">RSVP to events instantly. See who's going, get reminders, and never miss something you wanted to attend.</p>
-            </div>
-            <div class="feature-card reveal">
-                <div class="feature-icon">🧭</div>
-                <h3 class="feature-title">Campus Navigation</h3>
-                <p class="feature-description">Turn-by-turn directions to any event or building. Walking, driving, or transit... we've got you covered.</p>
-            </div>
-        </div>
-    </section>
+<!-- ====================== HERO ====================== -->
+<header class="hero" data-screen-label="01 Hero">
+  <div class="hero-img" aria-hidden="true"></div>
+  <div class="tex-overlay" aria-hidden="true"></div>
 
-    <section class="screenshots" id="screenshots">
-        <div class="section-header reveal">
-            <span class="section-label">The App</span>
-            <h2 class="section-title">Designed with intention.</h2>
-            <p class="section-subtitle">Every pixel crafted for clarity. Every interaction designed for delight.</p>
-        </div>
-        <div class="screenshots-grid">
-            <div class="screenshot-item reveal">
-                <div class="screenshot-phone">
-                    <div class="screenshot-screen"><img src="screenshot1.png" alt="Map View"></div>
-                </div>
-                <p class="screenshot-label">Map View</p>
-            </div>
-            <div class="screenshot-item reveal">
-                <div class="screenshot-phone">
-                    <div class="screenshot-screen"><img src="screenshot2.png" alt="Events List"></div>
-                </div>
-                <p class="screenshot-label">Events List</p>
-            </div>
-            <div class="screenshot-item reveal">
-                <div class="screenshot-phone">
-                    <div class="screenshot-screen"><img src="screenshot3.png" alt="Calendar"></div>
-                </div>
-                <p class="screenshot-label">Calendar</p>
-            </div>
-            <div class="screenshot-item reveal">
-                <div class="screenshot-phone">
-                    <div class="screenshot-screen"><img src="screenshot4.png" alt="Buildings"></div>
-                </div>
-                <p class="screenshot-label">Buildings</p>
-            </div>
-            <div class="screenshot-item reveal">
-                <div class="screenshot-phone">
-                    <div class="screenshot-screen"><img src="screenshot5.png" alt="Navigation"></div>
-                </div>
-                <p class="screenshot-label">Navigation</p>
-            </div>
-            <div class="screenshot-item reveal">
-                <div class="screenshot-phone">
-                    <div class="screenshot-screen"><img src="screenshot6.png" alt="Club Profile"></div>
-                </div>
-                <p class="screenshot-label">Club Profile</p>
-            </div>
-        </div>
-    </section>
+  <nav class="hero-nav">
+    <a href="#" class="wm" style="gap: 1px"><span class="wm-mark" aria-hidden="true" style="width: 40px; height: 50px; padding: 0px; margin: 0px 3.51953px 0px 0px"></span>neo<em>Quad</em></a>
+    <div class="right">
+      <a href="#product">Product</a>
+      <a href="#institutions">Institutions</a>
+      <a href="#why">Why</a>
+      <a href="#team">Team</a>
+      <a class="nav-cta" href="https://forms.fillout.com/t/29rxfuvnNwus" target="_blank" rel="noopener">Demo with Founder <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+  </nav>
 
-    <section class="about" id="about">
-        <div class="section-header reveal">
-            <span class="section-label">Our Story</span>
-            <h2 class="section-title">Built by students who get it.</h2>
-        </div>
-        <div class="about-content">
-            <div class="about-story reveal">
-                <div class="about-story-label"><span>💚</span> Why We Built This</div>
-                <h3>College changed everything for us. We want it to do the same for you.</h3>
-                <p>Growing up, I (Jacob) faced financial instability that limited many opportunities. Stability was a word other families used. But I was lucky that I got into a great high school, and then community college opened doors I never knew existed.</p>
-                <p>At community college, I discovered that college isn't just about classes. It's about the people you meet, the clubs you join, the random Tuesday night event that introduces you to your future co-founder. But here's the problem: most students miss these moments. Events get buried in email chains. Flyers blow away. Opportunities slip by.</p>
-                <blockquote class="about-quote">"We built neoQuad because every student deserves to find their community, not just the ones who know where to look or have preexisting connections."</blockquote>
-                <p>neoQuad isn't just an app. It's our way of making sure no student misses out on the connections that can change their life. Because that random club meeting? That spontaneous campus event? That's where the magic happens.</p>
-            </div>
-            <div class="founders-grid">
-                <div class="founder-card reveal">
-                    <div class="founder-avatar">JS</div>
-                    <h3 class="founder-name">Jacob Sola</h3>
-                    <p class="founder-role">Co-Founder & CEO</p>
-                    <p class="founder-bio">I'm a builder at heart. Always creating, always shipping. But the stuff worth building? It brings people together and makes resources accessible. neoQuad is the product of late nights and a simple belief: the best college moments shouldn't be reserved to a few. I built this so everyone can find them, and no one feels left out.</p>
-                    <div class="founder-social">
-                        <a href="https://www.linkedin.com/in/jacob-sola/" target="_blank" aria-label="LinkedIn"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
-                    </div>
-                </div>
-                <div class="founder-card reveal">
-                    <div class="founder-avatar">E</div>
-                    <h3 class="founder-name">Ervin Young</h3>
-                    <p class="founder-role">Co-Founder & CPO</p>
-                    <p class="founder-bio">I geek out over design, pixels, and making things feel right. But the best part of building neoQuad? Watching students actually connect. That's what makes the late nights worth it.</p>
-                    <div class="founder-social">
-                        <a href="https://www.linkedin.com/in/ervin-young-1b4464186/" target="_blank" aria-label="LinkedIn"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <div class="hero-body">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow mono" style="display:none"></div>
+        <h1 class="hero-h">The operating system for 
+campus life.
+</h1>
+        <p class="hero-sub">A discovery layer between campus resources and the students<br>
+who need them. <span style="color: rgb(45, 134, 236)">Built for institutions. Loved by students.</span>
 
-    <section class="how-it-works" id="how-it-works">
-        <div class="section-header reveal">
-            <span class="section-label">How It Works</span>
-            <h2 class="section-title">Three steps to never miss out.</h2>
+</p>
+        <div class="cta-row">
+          <a href="#institutions" class="btn">For institutions <span class="arrow">→</span></a>
+          <a href="https://apps.apple.com/us/app/neoquad/id6757087245" class="btn-link" target="_blank" rel="noopener">For students: get the app on iOS →</a>
         </div>
-        <div class="steps">
-            <div class="step reveal">
-                <div class="step-number">1</div>
-                <h3 class="step-title">Download & Sign In</h3>
-                <p class="step-description">Get the app and sign in with your .edu email. We'll automatically connect you to your campus.</p>
-            </div>
-            <div class="step reveal">
-                <div class="step-number">2</div>
-                <h3 class="step-title">Explore Events</h3>
-                <p class="step-description">Browse the interactive map, discover clubs, and find events that match your interests.</p>
-            </div>
-            <div class="step reveal">
-                <div class="step-number">3</div>
-                <h3 class="step-title">RSVP & Show Up</h3>
-                <p class="step-description">Tap to RSVP, add to your calendar, and get directions. That's it — you're connected.</p>
-            </div>
-        </div>
-    </section>
+      </div>
+      <aside class="hero-meta">
+        <div class="row mono"><span>Index</span><span>v.01 / 2026</span></div>
+        <div class="row mono"><span>Fall 2026 Pilot</span><span>Santa Barbara City College</span></div>
+      </aside>
+    </div>
+  </div>
+</header>
 
-    <section class="mission" id="mission">
-        <div class="mission-content reveal">
-            <h2 class="mission-quote">"College is more than classes.<br>It's about <span>connections</span>."</h2>
-            <p class="mission-text">We're building the future of campus life — where every student can discover their community, find their people, and make the most of their college experience. No more missed events. No more FOMO. Just you, your campus, connected.</p>
-        </div>
-    </section>
+<!-- ====================== SCROLL CAROUSEL ====================== -->
+<div class="scroll-pill" id="scrollPill" aria-label="Section indicator">
+  <div class="sp-track" id="spTrack">
+    <button class="sp-item" data-target="product"><span class="dot-mark"></span><span class="lbl">Product</span></button>
+    <button class="sp-item" data-target="institutions"><span class="dot-mark"></span><span class="lbl">Institutions</span></button>
+    <button class="sp-item" data-target="why"><span class="dot-mark"></span><span class="lbl">Why This Matters</span></button>
+    <button class="sp-item" data-target="team"><span class="dot-mark"></span><span class="lbl">The Team</span></button>
+  </div>
+</div>
 
-    <section class="cta-section" id="download">
-        <div class="cta-card reveal">
-            <h2 class="cta-title">Ready to connect?</h2>
-            <p class="cta-subtitle">Join students already discovering what's next on campus.</p>
-            <a href="https://apps.apple.com/us/app/neoquad/id6757087245" class="btn-primary">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-                Download on App Store
-            </a>
-        </div>
-    </section>
+<!-- ====================== PRODUCT (black) ====================== -->
+<section class="black" id="product" data-screen-label="02 Product">
+  <div class="tex-overlay" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="section-num">
+      <span class="n">02</span>
+      <span class="line"></span>
+      <span class="label">Product</span>
+    </div>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-brand">
-                <img src="logo.png" alt="neoQuad">
-                <span>neoQuad</span>
+    <h2 class="sec-h">One app.<br>The whole <span class="of">campus</span>.</h2>
+    <p class="product-body">Every official event, every club, every building, in a single map. Tap to RSVP. Get directions to the room. See what's happening live, today, on your campus. No accounts to follow. No inboxes to dig through. No website to remember.</p>
+
+    <!-- phones -->
+    <div class="phones">
+      <figure class="screen">
+        <img src="assets/screen-home.png" alt="Home — campus map with live events" />
+        <figcaption>Home</figcaption>
+      </figure>
+      <figure class="screen">
+        <img src="assets/screen-buildings.png" alt="Buildings directory with detail card" />
+        <figcaption>Find any building fast</figcaption>
+      </figure>
+      <figure class="screen">
+        <img src="assets/screen-clubs.png" alt="Clubs directory" />
+        <figcaption>Browse every club</figcaption>
+      </figure>
+      <figure class="screen">
+        <img src="assets/screen-club-detail.png" alt="Club detail page — SBCC ASG" />
+        <figcaption>Browse every event</figcaption>
+      </figure>
+    </div>
+
+    <div class="appstore" style="margin: 64px 0px 0px 14.9648px">
+      <a class="as-badge" href="#">
+        <svg class="apple" viewBox="0 0 384 512" width="22" height="26" aria-hidden="true"><path fill="currentColor" d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+        <span class="lbl"><span class="small">Download on the</span><span class="big">App Store</span></span>
+      </a>
+      <span class="as-note">Free for students. Available now on iOS.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== INSTITUTIONS (cream) ====================== -->
+<section class="cream" id="institutions" data-screen-label="03 Institutions">
+  <div class="tex-overlay" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="section-num">
+      <span class="n">03</span>
+      <span class="line"></span>
+      <span class="label">For institutions</span>
+    </div>
+
+    <h2 class="sec-h">For the students you're already <span class="of">trying</span> to reach.</h2>
+
+    <p class="lead">neoQuad is the discovery layer between campus resources and the students who need them. We're launching with Santa Barbara City College as our founding partner, one of the most equity-driven community colleges in the country, to demonstrate measurable lift in event attendance, club engagement, and first-year persistence. Free for SBCC, in perpetuity.</p>
+
+    <!-- pillars -->
+    <div class="pillars">
+      <div class="pillar">
+        <span class="num">i. Visibility</span>
+        <h3>Resource Visibility</h3>
+        <p>Every official event, club, and resource -- surfaced to every student, the moment they open the app. No follow-the-account requirement. No inbox blindness. Push tech that comes to them.</p>
+      </div>
+      <div class="pillar">
+        <span class="num">ii. Access</span>
+        <h3>Equitable Access</h3>
+        <p>The students who skip events because they have no one to go with are the same students who lack inherited campus networks. neoQuad lowers the cost of attending alone -- and the literature is clear that the lift is largest for first-generation, commuter, and underrepresented students.</p>
+      </div>
+      <div class="pillar">
+        <span class="num">iii. Telemetry</span>
+        <h3>Engagement Telemetry</h3>
+        <p>Aggregate-only, k-anonymity-bounded engagement data. See what students are actually using -- without surveilling any individual student. Institutional intelligence without institutional overreach.</p>
+      </div>
+    </div>
+
+    <!-- ====================== ADMIN DASHBOARD MOCKUP (peek + reveal) ====================== -->
+    <div class="dash-reveal" id="dashReveal">
+      <div class="dash-clip">
+        <div class="admin-dash" aria-label="School administrator dashboard mockup" role="img">
+      <div class="ad-topbar">
+        <div class="ad-brand">
+          <span class="ad-mark" aria-hidden="true"></span>
+          <span class="ad-title"><strong>neoQuad</strong><span class="ad-divider">/</span><span class="ad-tenant">Santa Barbara City College</span></span>
+        </div>
+        <div class="ad-tabs" role="tablist">
+          <button class="ad-tab is-active" type="button">Overview</button>
+          <button class="ad-tab" type="button">Resources</button>
+          <button class="ad-tab" type="button">Events</button>
+          <button class="ad-tab" type="button">Notifications</button>
+          <button class="ad-tab" type="button">Audit log</button>
+        </div>
+        <div class="ad-meta">
+          <span class="ad-range">SEP 08 — OCT 05, 2026</span>
+          <span class="ad-user" aria-label="Signed in as J. Marquez">JM</span>
+        </div>
+      </div>
+
+      <div class="ad-stage">
+        <header class="ad-stage-head">
+          <div>
+            <p class="ad-eyebrow">Overview · Week of Sep 29 – Oct 5, 2026</p>
+            <h4 class="ad-h">Weekly engagement</h4>
+          </div>
+          <div class="ad-stage-actions">
+            <span class="ad-pill ad-pill--live"><span class="dot"></span>Live · syncs every 6h</span>
+            <span class="ad-pill">k-anon ≥ 12</span>
+            <span class="ad-pill">FERPA-aligned</span>
+          </div>
+        </header>
+
+        <!-- KPI row -->
+        <div class="ad-kpi-row">
+          <div class="ad-kpi">
+            <span class="ad-kpi-lbl">Active students reached</span>
+            <span class="ad-kpi-val">4,824</span>
+            <span class="ad-kpi-delta up">▲ 18.4%<em>vs. prior week</em></span>
+          </div>
+          <div class="ad-kpi">
+            <span class="ad-kpi-lbl">Events surfaced</span>
+            <span class="ad-kpi-val">87</span>
+            <span class="ad-kpi-delta up">▲ 6<em>added this week</em></span>
+          </div>
+          <div class="ad-kpi">
+            <span class="ad-kpi-lbl">RSVPs · in-app</span>
+            <span class="ad-kpi-val">1,142</span>
+            <span class="ad-kpi-delta up">▲ 24.1%<em>vs. prior week</em></span>
+          </div>
+          <div class="ad-kpi">
+            <span class="ad-kpi-lbl">Avg. session</span>
+            <span class="ad-kpi-val">4m 12s</span>
+            <span class="ad-kpi-delta up">▲ 18s<em>vs. prior week</em></span>
+          </div>
+        </div>
+
+        <!-- chart + top resources -->
+        <div class="ad-grid">
+          <div class="ad-panel ad-panel--chart">
+            <div class="ad-panel-head">
+              <div>
+                <p class="ad-eyebrow">Trend · last 12 weeks</p>
+                <p class="ad-panel-title">Active students vs. RSVPs</p>
+              </div>
+              <div class="ad-legend">
+                <span><span class="sw sw-1"></span>Active reach</span>
+                <span><span class="sw sw-2"></span>RSVPs</span>
+              </div>
             </div>
-            <div class="footer-links">
-                <div class="footer-column">
-                    <h4>Product</h4>
-                    <ul>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#how-it-works">How It Works</a></li>
-                        <li><a href="#download">Download</a></li>
-                    </ul>
+            <div class="ad-chart">
+              <svg viewBox="0 0 720 240" preserveAspectRatio="none" aria-hidden="true">
+                <line class="gridline" x1="40" y1="10"  x2="710" y2="10"></line>
+                <line class="gridline" x1="40" y1="58"  x2="710" y2="58"></line>
+                <line class="gridline" x1="40" y1="105" x2="710" y2="105"></line>
+                <line class="gridline" x1="40" y1="153" x2="710" y2="153"></line>
+                <line class="gridline" x1="40" y1="200" x2="710" y2="200"></line>
+                <text class="axis-tick y-tick" x="34" y="14">5,000</text>
+                <text class="axis-tick y-tick" x="34" y="62">3,750</text>
+                <text class="axis-tick y-tick" x="34" y="109">2,500</text>
+                <text class="axis-tick y-tick" x="34" y="157">1,250</text>
+                <text class="axis-tick y-tick" x="34" y="204">0</text>
+                <text class="axis-tick x-tick" x="40"  y="222">Jul 14</text>
+                <text class="axis-tick x-tick" x="220" y="222">Aug 04</text>
+                <text class="axis-tick x-tick" x="400" y="222">Aug 25</text>
+                <text class="axis-tick x-tick" x="580" y="222">Sep 15</text>
+                <text class="axis-tick x-tick" x="700" y="222">Sep 29</text>
+                <path class="area-1" d="M 40,154.4 L 100,144.9 L 160,147.6 L 220,138.4 L 280,127.8 L 340,118.3 L 400,108.8 L 460,94.4 L 520,78.4 L 580,61.3 L 640,45.0 L 700,16.7 L 700,200 L 40,200 Z"></path>
+                <path class="area-2" d="M 40,177.2 L 100,169.6 L 160,163.3 L 220,154.4 L 280,146.8 L 340,135.4 L 400,121.5 L 460,107.5 L 520,94.9 L 580,80.9 L 640,75.9 L 700,55.4 L 700,200 L 40,200 Z"></path>
+                <polyline class="line-1" points="40,154.4 100,144.9 160,147.6 220,138.4 280,127.8 340,118.3 400,108.8 460,94.4 520,78.4 580,61.3 640,45.0 700,16.7"></polyline>
+                <polyline class="line-2" points="40,177.2 100,169.6 160,163.3 220,154.4 280,146.8 340,135.4 400,121.5 460,107.5 520,94.9 580,80.9 640,75.9 700,55.4"></polyline>
+                <line class="anno-line" x1="280" y1="10" x2="280" y2="200"></line>
+                <text class="anno-lbl" x="286" y="22">APP LAUNCH · AUG 18</text>
+                <circle class="dot-1" cx="700" cy="16.7" r="3.5"></circle>
+                <circle class="dot-2" cx="700" cy="55.4" r="3"></circle>
+              </svg>
+            </div>
+
+            <div class="ad-subhead">
+              <div>
+                <p class="ad-eyebrow">Daily · last 14 days</p>
+                <p class="ad-panel-title">App opens by day</p>
+              </div>
+              <div class="ad-mini-legend">
+                <span><span class="sw weekday"></span>Weekday</span>
+                <span><span class="sw weekend"></span>Weekend</span>
+              </div>
+            </div>
+            <div class="ad-chart ad-chart-mini">
+              <svg viewBox="0 0 720 140" preserveAspectRatio="none" aria-hidden="true">
+                <line class="gridline" x1="50" y1="10"  x2="710" y2="10"></line>
+                <line class="gridline" x1="50" y1="65"  x2="710" y2="65"></line>
+                <line class="gridline" x1="50" y1="120" x2="710" y2="120"></line>
+                <text class="axis-tick y-tick" x="44" y="14">4k</text>
+                <text class="axis-tick y-tick" x="44" y="69">2k</text>
+                <text class="axis-tick y-tick" x="44" y="123">0</text>
+
+                <rect class="bar"          x="52"  y="62.3" width="38" height="57.8" rx="2"></rect>
+                <rect class="bar"          x="98"  y="57.3" width="38" height="62.7" rx="2"></rect>
+                <rect class="bar"          x="144" y="53.7" width="38" height="66.3" rx="2"></rect>
+                <rect class="bar"          x="190" y="50.2" width="38" height="69.8" rx="2"></rect>
+                <rect class="bar"          x="236" y="46.3" width="38" height="73.7" rx="2"></rect>
+                <rect class="bar weekend"  x="282" y="69.4" width="38" height="50.6" rx="2"></rect>
+                <rect class="bar weekend"  x="328" y="75.5" width="38" height="44.5" rx="2"></rect>
+                <rect class="bar"          x="374" y="42.5" width="38" height="77.5" rx="2"></rect>
+                <rect class="bar"          x="420" y="36.1" width="38" height="83.9" rx="2"></rect>
+                <rect class="bar"          x="466" y="32.0" width="38" height="88.0" rx="2"></rect>
+                <rect class="bar"          x="512" y="27.6" width="38" height="92.4" rx="2"></rect>
+                <rect class="bar"          x="558" y="23.2" width="38" height="96.8" rx="2"></rect>
+                <rect class="bar weekend"  x="604" y="53.7" width="38" height="66.3" rx="2"></rect>
+                <rect class="bar weekend"  x="650" y="60.0" width="38" height="60.0" rx="2"></rect>
+
+                <line class="anno-line" x1="374" y1="10" x2="374" y2="120"></line>
+                <text class="anno-lbl" x="380" y="20">PUSH · SEP 29</text>
+
+                <text class="axis-tick x-tick" x="71"  y="135">Sep 22</text>
+                <text class="axis-tick x-tick" x="393" y="135">Sep 29</text>
+                <text class="axis-tick x-tick" x="669" y="135">Oct 05</text>
+              </svg>
+            </div>
+          </div>
+
+          <div class="ad-panel">
+            <div class="ad-panel-head">
+              <div>
+                <p class="ad-eyebrow">This week</p>
+                <p class="ad-panel-title">Top resources by RSVP</p>
+              </div>
+            </div>
+            <ul class="ad-list">
+              <li>
+                <span class="rank">01</span>
+                <div class="row-main">
+                  <span class="row-title">Library Late-Night Study</span>
+                  <span class="row-sub">SBCC Luria Library · Recurring</span>
                 </div>
-                <div class="footer-column">
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="#about">Our Story</a></li>
-                        <li><a href="admin.html" style="color: var(--primary);">For Schools</a></li>
-                        <!-- <li><a href="events.html">Events</a></li> -->
-                        <li><a href="privacy.html">Privacy Policy</a></li>
-                        <li><a href="terms.html">Terms of Service</a></li>
-                    </ul>
+                <div class="row-stat">
+                  <span class="row-num">418</span>
+                  <span class="row-delta up">▲ 32%</span>
                 </div>
-                <div class="footer-column">
-                    <h4>Connect</h4>
-                    <ul>
-                        <li><a href="mailto:hello@neoquadapp.com">hello@neoquadapp.com</a></li>
-                        <li><a href="https://instagram.com/neo.quad" target="_blank">@neo.quad</a></li>
-                    </ul>
+              </li>
+              <li>
+                <span class="rank">02</span>
+                <div class="row-main">
+                  <span class="row-title">Career Center Drop-in</span>
+                  <span class="row-sub">SS-160 · Mon–Thu</span>
                 </div>
-            </div>
+                <div class="row-stat">
+                  <span class="row-num">312</span>
+                  <span class="row-delta up">▲ 18%</span>
+                </div>
+              </li>
+              <li>
+                <span class="rank">03</span>
+                <div class="row-main">
+                  <span class="row-title">Club Rush · Fall 2026</span>
+                  <span class="row-sub">West Campus Lawn · Oct 01</span>
+                </div>
+                <div class="row-stat">
+                  <span class="row-num">287</span>
+                  <span class="row-delta up">▲ 41%</span>
+                </div>
+              </li>
+              <li>
+                <span class="rank">04</span>
+                <div class="row-main">
+                  <span class="row-title">Math Lab Open Hours</span>
+                  <span class="row-sub">IDC-216 · Mon–Fri</span>
+                </div>
+                <div class="row-stat">
+                  <span class="row-num">244</span>
+                  <span class="row-delta up">▲ 12%</span>
+                </div>
+              </li>
+              <li>
+                <span class="rank">05</span>
+                <div class="row-main">
+                  <span class="row-title">ASG Townhall — Tuition</span>
+                  <span class="row-sub">Student Senate · Oct 03</span>
+                </div>
+                <div class="row-stat">
+                  <span class="row-num">198</span>
+                  <span class="row-delta up">▲ 9%</span>
+                </div>
+              </li>
+              <li>
+                <span class="rank">06</span>
+                <div class="row-main">
+                  <span class="row-title">Intramural Soccer · Wk 4</span>
+                  <span class="row-sub">Pershing Park · Sat AM</span>
+                </div>
+                <div class="row-stat">
+                  <span class="row-num">167</span>
+                  <span class="row-delta up">▲ 56%</span>
+                </div>
+              </li>
+              <li>
+                <span class="rank">07</span>
+                <div class="row-main">
+                  <span class="row-title">Transfer Workshop · UC</span>
+                  <span class="row-sub">Transfer Center · Oct 02</span>
+                </div>
+                <div class="row-stat">
+                  <span class="row-num">142</span>
+                  <span class="row-delta up">▲ 6%</span>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="footer-bottom">
-            <p class="footer-copyright">© 2026 neoQuad. Built with 💚 By Students For Students</p>
-            <div class="footer-social">
-                <a href="https://instagram.com/neo.quad" target="_blank" aria-label="Instagram">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                </a>
-                <a href="mailto:hello@neoquadapp.com" aria-label="Email">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                </a>
-            </div>
-        </div>
-    </footer>
 
+        <p class="ad-footnote">All figures aggregated to k-anonymity ≥ 12 · No individual student is identifiable · Source: neoQuad telemetry, w/c Sep 29 2026 · No FERPA-protected records ingested</p>
+      </div><!-- /.ad-stage -->
+        </div><!-- /.admin-dash -->
+        <div class="dash-fade" aria-hidden="true"></div>
+      </div><!-- /.dash-clip -->
+      <button class="dash-reveal-toggle" type="button" aria-controls="dashReveal" aria-expanded="false">
+        <span class="lbl">
+          <small>For administrators</small>
+          <span class="lbl-text"></span>
+        </span>
+        <span class="arrow" aria-hidden="true">↓</span>
+      </button>
+    </div><!-- /.dash-reveal -->
     <script>
-        // Reveal animations
-        function reveal() {
-            const reveals = document.querySelectorAll('.reveal');
-            reveals.forEach(element => {
-                const windowHeight = window.innerHeight;
-                const elementTop = element.getBoundingClientRect().top;
-                const revealPoint = 150;
-                if (elementTop < windowHeight - revealPoint) {
-                    element.classList.add('active');
-                }
-            });
-        }
-        window.addEventListener('scroll', reveal);
-        window.addEventListener('load', reveal);
+      (function(){
+        var dr   = document.getElementById('dashReveal');
+        if(!dr) return;
+        var clip = dr.querySelector('.dash-clip');
+        var dash = dr.querySelector('.admin-dash');
+        var btn  = dr.querySelector('.dash-reveal-toggle');
 
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+        function open(){
+          // Pin to the exact content height so the transition lands precisely
+          // when content ends — no rushed mid-transition, no idle tail.
+          var target = dash.scrollHeight;
+          clip.style.maxHeight = target + 'px';
+          dr.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+        function close(){
+          // Re-pin from current rendered height so the collapse transition
+          // starts from a measured number rather than the inline 'auto'-ish value.
+          clip.style.maxHeight = clip.getBoundingClientRect().height + 'px';
+          // Next frame: drop back to the CSS default (188px peek)
+          requestAnimationFrame(function(){
+            requestAnimationFrame(function(){
+              clip.style.maxHeight = '';
+              dr.classList.remove('is-open');
+              btn.setAttribute('aria-expanded', 'false');
             });
+          });
+        }
+        btn.addEventListener('click', function(){
+          if(dr.classList.contains('is-open')) close(); else open();
         });
+
+        // Re-measure on resize while open
+        var ro = (typeof ResizeObserver !== 'undefined') && new ResizeObserver(function(){
+          if(dr.classList.contains('is-open')){
+            clip.style.maxHeight = dash.scrollHeight + 'px';
+          }
+        });
+        if(ro) ro.observe(dash);
+      })();
     </script>
-</body>
-</html>
+
+    <!-- compliance -->
+    <div class="compliance">
+      <h3 class="subh">A compliance posture you can take to the IT director.</h3>
+      <div class="compliance-grid">
+        <div>
+          <div class="comp-item">
+            <strong>Zero data sales.</strong>
+            <p>We will never sell, rent, or trade student data to any third party. Ever.</p>
+          </div>
+          <div class="comp-item">
+            <strong>Zero location tracking.</strong>
+            <p>Location is not used in the app, not asked for, and is never stored.</p>
+          </div>
+          <div class="comp-item">
+            <strong>Zero integration burden.</strong>
+            <p>No SIS, LMS, or ERP connections required. We integrate with nothing.</p>
+          </div>
+          <div class="comp-item">
+            <strong>Institutional data sovereignty.</strong>
+            <p>Your campus retains full ownership of every event you publish.</p>
+          </div>
+        </div>
+        <div>
+          <div class="comp-item">
+            <strong>FERPA-aligned.</strong>
+            <p>Architecture does not access, store, or request any FERPA-protected records. </p>
+          </div>
+          <div class="comp-item">
+            <strong>COPPA-compliant.</strong>
+            <p>Age-gated 4+ App Store distribution.</p>
+          </div>
+          <div class="comp-item">
+            <strong>AES-256 at rest, TLS 1.2+ in transit.</strong>
+            <p>Server-side Firestore Security Rules enforce school-scoped isolation by design.</p>
+          </div>
+          <div class="comp-item">
+            <strong>Four data points.</strong>
+            <p>That's all we collect from a student: email, display name, optional year/major/photo, RSVPs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- contact -->
+    <div class="contact">
+      <div>
+        <h3 class="subh" style="margin-bottom:24px">Want to chat?</h3>
+        <p class="lead" style="font-size:18px">We're in active conversations with administrators across the California Community College system. If you'd like to add yours to the list, drop a note.</p>
+      </div>
+      <form class="contact-form" onsubmit="event.preventDefault();" style="grid-template-columns:1fr;gap:28px">
+        <div class="form-actions" style="grid-column:1; padding-top:28px; display:flex; flex-direction:column; align-items:flex-start; gap:24px">
+          <a class="btn btn-dark" href="https://forms.fillout.com/t/29rxfuvnNwus" target="_blank" rel="noopener" style="background-color: rgb(20, 119, 231); border-color: rgba(176, 197, 220, 0.37); color: rgb(255, 255, 255); text-decoration:none">Demo with Founder <span class="arrow">→</span></a>
+          <span class="alt-mail">Or email us directly: <a href="/cdn-cgi/l/email-protection#ec8489808083ac8289839d998d888d9c9cc28f8381"><span class="__cf_email__" data-cfemail="e48c8188888ba48a818b95918580859494ca878b89">[email&#160;protected]</span></a></span>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== WHY (cream) ====================== -->
+<section class="cream" id="why" data-screen-label="04 Why">
+  <div class="tex-overlay" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="section-num">
+      <span class="n">04</span>
+      <span class="line"></span>
+      <span class="label">Why this matters</span>
+    </div>
+
+    <h2 class="sec-h">Inequitable attrition has a quiet <span class="of" style="font-family:var(--serif-display);font-style:normal;font-size:1em;line-height:inherit">cause</span>.</h2>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="num" data-count="36"><span class="val">0</span><span class="pct" style="font-size:0.5em;vertical-align:0.5em">%</span></div>
+        <div class="lbl">of SBCC students are <span class="blue">first-generation</span></div>
+        <div class="src">Source — SBCC Student Equity Plan</div>
+      </div>
+      <div class="stat">
+        <div class="num" data-count="42"><span class="val">0</span><span class="pct" style="font-size:0.5em;vertical-align:0.5em">%</span></div>
+        <div class="lbl">of community-college dropouts are first-generation or low-income</div>
+        <div class="src">Source — CCCO Student Success Metrics</div>
+      </div>
+      <div class="stat">
+        <div class="num" data-count="86"><span class="val">0</span><span class="pct" style="font-size:0.5em;vertical-align:0.5em">%</span></div>
+        <div class="lbl">of students have skipped events because they didn't have anyone to go with</div>
+        <div class="src">Source — neoQuad Primary Research, n = 58</div>
+      </div>
+    </div>
+
+    <p class="why-close">Belonging is the strongest non-academic predictor of persistence. The students lost don't drop out at orientation. They drop out <span class="em" style="color: rgb(20, 119, 231)">one skipped event at a time</span>.</p>
+  </div>
+</section>
+
+<!-- ====================== TEAM (black) ====================== -->
+<section class="black" id="team" data-screen-label="05 Team">
+  <div class="tex-overlay" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="section-num">
+      <span class="n">05</span>
+      <span class="line"></span>
+      <span class="label">The team</span>
+    </div>
+
+    <h2 class="sec-h">Two engineers. Both former community college students.</h2>
+    <p class="team-lead">neoQuad is built by people who lived the problem.</p>
+
+    <div class="founders">
+      <div class="founder">
+        <div class="photo j" aria-label="Photo of Jacob Sola"></div>
+        <div>
+          <div class="name">Jacob Sola</div>
+          <div class="role" style="color:var(--blue)">Co-founder &amp; CEO</div>
+          <p>Jacob is an engineer at RTX (Raytheon), where he applies rigorous data science to aerospace defense. A graduate of UC Riverside and College of the Canyons, he started neoQuad to build the discovery layer he wished had existed when he was a community college student.</p>
+        </div>
+      </div>
+      <div class="founder">
+        <div class="photo e" aria-label="Photo of Ervin Young"></div>
+        <div>
+          <div class="name">Ervin Young</div>
+          <div class="role" style="color:var(--blue)">Co-founder &amp; CPO</div>
+          <p>Ervin is an engineer at Tesla, where he brings Silicon Valley product rigor to neoQuad's platform. He attended Las Positas Community College, Virginia Tech, and UC Riverside for CS -- a non-traditional path that informs every product decision the company makes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== FOOTER ====================== -->
+<footer data-screen-label="06 Footer">
+  <div class="tex-overlay" aria-hidden="true"></div>
+  <div class="ftr-grid">
+    <div class="ftr-col">
+      <a href="#" class="wm" style="font-size: 24px; margin: -12px 0px 0px; padding: 0px"><span class="wm-mark" style="width:34px;height:34px" aria-hidden="true"></span>neo<em>Quad</em></a>
+      <p class="ftr-tag" style="margin: 4px 0px 0px">The operating system for campus life.</p>
+      <a class="as-badge" href="https://apps.apple.com/us/app/neoquad/id6757087245" target="_blank" rel="noopener" style="display:inline-flex;margin-top:24px;text-decoration:none">
+        <svg class="apple" viewBox="0 0 384 512" width="22" height="26" aria-hidden="true"><path fill="currentColor" d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+        <span class="lbl"><span class="small">Download on the</span><span class="big">App Store</span></span>
+      </a>
+    </div>
+    <div class="ftr-col">
+      <h4>Contact</h4>
+      <a href="/cdn-cgi/l/email-protection#2f474a4343406f414a405e5a4e4b4e5f5f014c4042"><span class="__cf_email__" data-cfemail="5c34393030331c3239332d293d383d2c2c723f3331">[email&#160;protected]</span></a>
+      <a class="ftr-btn" href="https://forms.fillout.com/t/29rxfuvnNwus" target="_blank" rel="noopener">Demo with Founder <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+    <div class="ftr-col">
+      <h4>Legal</h4>
+      <a href="Privacy.html">Privacy</a>
+      <a href="Terms.html">Terms</a>
+    </div>
+    <div class="ftr-col">
+      <h4>The 1% pledge</h4>
+      <p class="pledge">1% of all future net revenues will go to support the most effective solutions for the world’s most pressing challenges.</p>
+    </div>
+  </div>
+  <div class="ftr-bottom">
+    <span>© 2026 neoQuad</span>
+    <span>All rights reserved</span>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// Shimmer the 1% pledge once when it scrolls into view, and again on hover.
+(function(){
+  const pledge = document.querySelector('.pledge');
+  if (!pledge) return;
+  function trigger(){
+    pledge.classList.remove('shimmer-active');
+    void pledge.offsetWidth; // restart animation
+    pledge.classList.add('shimmer-active');
+  }
+  pledge.addEventListener('mouseenter', trigger);
+  if ('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting){ trigger(); io.disconnect(); } });
+    }, { threshold: 0.6 });
+    io.observe(pledge);
+  } else {
+    trigger();
+  }
+})();
+
+// Why-section stats: stagger reveal + count up the big % numbers as they enter the viewport.
+(function(){
+  const stats = document.querySelectorAll('#why .stat');
+  if (!stats.length) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function countUp(numEl, target){
+    const valEl = numEl.querySelector('.val');
+    if (!valEl) return;
+    if (reduce){ valEl.textContent = target; return; }
+    const duration = 1400;
+    const start = performance.now();
+    function frame(now){
+      const t = Math.min(1, (now - start) / duration);
+      // easeOutCubic
+      const eased = 1 - Math.pow(1 - t, 3);
+      valEl.textContent = Math.round(target * eased);
+      if (t < 1) requestAnimationFrame(frame);
+      else valEl.textContent = target;
+    }
+    requestAnimationFrame(frame);
+  }
+
+  if ('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const stat = e.target;
+        const i = Array.from(stats).indexOf(stat);
+        stat.style.transitionDelay = (i * 140) + 'ms';
+        stat.classList.add('in-view');
+        const numEl = stat.querySelector('.num[data-count]');
+        if (numEl){
+          const target = parseInt(numEl.getAttribute('data-count'), 10);
+          setTimeout(() => countUp(numEl, target), i * 140 + 200);
+        }
+        io.unobserve(stat);
+      });
+    }, { threshold: 0.35 });
+    stats.forEach(s => io.observe(s));
+  } else {
+    stats.forEach(stat => {
+      stat.classList.add('in-view');
+      const numEl = stat.querySelector('.num[data-count]');
+      if (numEl) numEl.querySelector('.val').textContent = numEl.getAttribute('data-count');
+    });
+  }
+})();
+(function(){
+  const pill = document.getElementById('scrollPill');
+  const track = document.getElementById('spTrack');
+  const items = Array.from(track.querySelectorAll('.sp-item'));
+  const sections = items.map(el => document.getElementById(el.dataset.target));
+  const hero = document.querySelector('.hero');
+
+  // Light/dark mode by section
+  const darkSections = new Set(['product','team']);
+
+  function update(){
+    const scrollY = window.scrollY;
+    const heroBot = hero.offsetTop + hero.offsetHeight;
+    if (scrollY > heroBot - 100) pill.classList.add('show');
+    else pill.classList.remove('show');
+
+    // active section: the one whose top is closest to viewport top (with offset)
+    const probe = scrollY + window.innerHeight * 0.35;
+    let activeIdx = 0;
+    for (let i=0; i<sections.length; i++){
+      const s = sections[i];
+      if (!s) continue;
+      if (s.offsetTop <= probe) activeIdx = i;
+    }
+
+    items.forEach((el, i) => {
+      const isActive = i === activeIdx;
+      el.classList.toggle('active', isActive);
+      // smoothly tween width: dot (8px) ↔ label width
+      el.style.width = isActive ? (el.dataset.lblWidth + 'px') : '8px';
+    });
+  }
+
+  let raf;
+  window.addEventListener('scroll', () => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => { update(); raf = null; });
+  }, {passive:true});
+  window.addEventListener('resize', measure);
+  // measure label widths once fonts load
+  function measure(){
+    items.forEach(el => {
+      const lbl = el.querySelector('.lbl');
+      if (!lbl) return;
+      // temporarily render label to measure
+      const prev = el.style.width;
+      el.style.width = 'auto';
+      el.classList.add('measuring');
+      const w = Math.ceil(el.getBoundingClientRect().width);
+      el.classList.remove('measuring');
+      el.dataset.lblWidth = w;
+      el.style.width = prev;
+    });
+    update();
+  }
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(measure);
+  }
+  measure();
+
+  items.forEach(el => {
+    el.addEventListener('click', () => {
+      const target = document.getElementById(el.dataset.target);
+      if (target) window.scrollTo({top: target.offsetTop - 20, behavior:'smooth'});
+    });
+  });
+})();
+</script>
+
+
+
+
+<!-- ====================== TWEAKS ====================== -->
+<div id="tweaks-root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "mood": "coastal",
+    "editorial": 13,
+    "texture": "clean"
+  }/*EDITMODE-END*/;
+
+  // Pull tweaks-panel exports into local scope (each Babel block has its own scope).
+  const { useTweaks, TweaksPanel, TweakSection, TweakRadio, TweakSlider } = window;
+
+  // Mood presets — each one re-tunes the accent system + serif voice.
+  const MOODS = {
+    coastal: {
+      label: "Coastal",
+      accent: "oklch(0.58 0.19 256)",
+      soft:   "oklch(0.58 0.19 256 / 0.18)",
+      glow:   "oklch(0.58 0.19 256 / 0.45)",
+      conic1: "oklch(0.72 0.16 256)",
+      conic2: "oklch(0.58 0.19 256)",
+      conic3: "oklch(0.85 0.08 256)",
+      conic4: "oklch(0.45 0.18 256)",
+      serifDisplay: "'IBM Plex Serif', serif",
+      serifItalic:  "'IBM Plex Serif', serif",
+    },
+    sunlit: {
+      label: "Sunlit",
+      accent: "oklch(0.66 0.16 62)",
+      soft:   "oklch(0.66 0.16 62 / 0.20)",
+      glow:   "oklch(0.66 0.16 62 / 0.55)",
+      conic1: "oklch(0.78 0.14 70)",
+      conic2: "oklch(0.66 0.16 55)",
+      conic3: "oklch(0.88 0.09 80)",
+      conic4: "oklch(0.52 0.15 40)",
+      serifDisplay: "'Fraunces', serif",
+      serifItalic:  "'Fraunces', serif",
+    },
+    nocturne: {
+      label: "Nocturne",
+      accent: "oklch(0.62 0.21 305)",
+      soft:   "oklch(0.62 0.21 305 / 0.22)",
+      glow:   "oklch(0.62 0.21 305 / 0.55)",
+      conic1: "oklch(0.74 0.17 300)",
+      conic2: "oklch(0.55 0.22 310)",
+      conic3: "oklch(0.86 0.10 295)",
+      conic4: "oklch(0.42 0.20 320)",
+      serifDisplay: "'DM Serif Display', serif",
+      serifItalic:  "'DM Serif Display', serif",
+    },
+  };
+
+  function applyMood(name){
+    const m = MOODS[name] || MOODS.coastal;
+    const r = document.documentElement.style;
+    r.setProperty('--accent', m.accent);
+    r.setProperty('--accent-soft', m.soft);
+    r.setProperty('--accent-glow', m.glow);
+    r.setProperty('--accent-conic-1', m.conic1);
+    r.setProperty('--accent-conic-2', m.conic2);
+    r.setProperty('--accent-conic-3', m.conic3);
+    r.setProperty('--accent-conic-4', m.conic4);
+    r.setProperty('--serif-display', m.serifDisplay);
+    r.setProperty('--serif-italic',  m.serifItalic);
+  }
+
+  // Editorial intensity 0–100 → display scale, italic ratio, rule weight, mono tracking.
+  function applyEditorial(v){
+    const t = Math.max(0, Math.min(100, v)) / 100;
+    // Below 50 = restrained broadsheet. Above 50 = poster-ish display.
+    const displayScale = 0.85 + t * 0.55;       // 0.85 → 1.40
+    const italicRatio  = 0.95 + t * 0.55;       // 0.95 → 1.50 — italics swell as a counterweight
+    const ruleWeight   = 0.6 + t * 2.4;         // 0.6px → 3px
+    const monoTrack    = 0.04 + t * 0.16;       // 0.04em → 0.20em
+    const r = document.documentElement.style;
+    r.setProperty('--display-scale', displayScale.toFixed(3));
+    r.setProperty('--italic-ratio', italicRatio.toFixed(3));
+    r.setProperty('--rule-weight', ruleWeight.toFixed(2) + 'px');
+    r.setProperty('--mono-track', monoTrack.toFixed(3) + 'em');
+  }
+
+  function applyTexture(v){
+    document.body.setAttribute('data-texture', v);
+  }
+
+  function App(){
+    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+    React.useEffect(() => { applyMood(t.mood); }, [t.mood]);
+    React.useEffect(() => { applyEditorial(t.editorial); }, [t.editorial]);
+    React.useEffect(() => { applyTexture(t.texture); }, [t.texture]);
+
+    return (
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Mood" />
+        <TweakRadio
+          label="Preset"
+          value={t.mood}
+          options={[
+            {value:'coastal',  label:'Coastal'},
+            {value:'sunlit',   label:'Sunlit'},
+            {value:'nocturne', label:'Nocturne'},
+          ]}
+          onChange={(v)=>setTweak('mood', v)}
+        />
+
+        <TweakSection label="Editorial" />
+        <TweakSlider
+          label="Broadsheet → Poster"
+          value={t.editorial}
+          min={0} max={100} step={1}
+          onChange={(v)=>setTweak('editorial', v)}
+        />
+
+        <TweakSection label="Texture" />
+        <TweakRadio
+          label="Surface"
+          value={t.texture}
+          options={[
+            {value:'clean', label:'Clean'},
+            {value:'grain', label:'Grain'},
+            {value:'riso',  label:'Riso'},
+          ]}
+          onChange={(v)=>setTweak('texture', v)}
+        />
+      </TweaksPanel>
+    );
+  }
+
+  // Apply defaults immediately on load so first paint matches persisted state.
+  applyMood(TWEAK_DEFAULTS.mood);
+  applyEditorial(TWEAK_DEFAULTS.editorial);
+  applyTexture(TWEAK_DEFAULTS.texture);
+
+  ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<App />);
+</script>
+
+</body></html>

@@ -1,324 +1,534 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - neoQuad</title>
-    <meta name="description" content="neoQuad Privacy Policy - How we collect, use, and protect your information.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #00D26A;
-            --primary-glow: rgba(0, 210, 106, 0.4);
-            --bg-dark: #000000;
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.6);
-            --text-tertiary: rgba(255, 255, 255, 0.4);
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            line-height: 1.7;
-        }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>neoQuad — Privacy Policy</title>
+<meta name="description" content="How neoQuad collects, uses, and protects student information.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0E0E0E;
+    --cream:#F4EFE6;
+    --ink:#1A1A1A;
+    --rule-black:rgba(244,239,230,0.16);
+    --rule-cream:rgba(14,14,14,0.14);
+    --accent: oklch(0.58 0.19 256);
+    --accent-soft: rgba(82,127,217,0.18);
+    --serif-display: 'IBM Plex Serif', serif;
+    --serif-italic: 'IBM Plex Serif', serif;
+    --max: 1320px;
+    --pad: clamp(20px, 4vw, 56px);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Geist', system-ui, -apple-system, sans-serif;
+    font-size:18px;line-height:1.55;
+    color:var(--ink);background:var(--cream);
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  ::selection{background:var(--accent);color:#fff}
+  a{color:inherit;text-decoration:none}
+  p{margin:0}
+  h1,h2,h3,h4{margin:0;font-weight:500;letter-spacing:-0.02em}
+  .serif-i{font-family:var(--serif-italic);font-style:italic;font-weight:400}
+  .mono{font-family:'JetBrains Mono', ui-monospace, monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase}
 
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1000;
-            padding: 16px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-        }
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.3rem;
-            font-weight: 600;
-            text-decoration: none;
-            color: var(--text-primary);
-        }
-        .nav-logo img { width: 36px; height: 36px; border-radius: 10px; }
-        .nav-back {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        .nav-back:hover { color: var(--primary); }
-        @media (max-width: 768px) {
-            nav { padding: 16px 20px; }
-        }
+  /* ============ NAV ============ */
+  .nav{
+    padding:28px var(--pad);
+    display:flex;align-items:center;justify-content:space-between;
+    max-width:none;
+  }
+  .nav-inner{
+    width:100%;max-width:var(--max);margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .wm{
+    font-family:'IBM Plex Serif', serif;
+    font-size:22px;font-weight:700;letter-spacing:-0.02em;
+    display:inline-flex;align-items:center;gap:1px;
+    color:var(--ink);
+  }
+  .wm em{font-family:var(--serif-italic);font-style:italic;font-weight:400;letter-spacing:-0.015em}
+  .wm-mark{
+    width:40px;height:50px;flex:none;margin-right:4px;
+    background:url('assets/flower-of-life-dark.png') center/contain no-repeat;
+  }
+  .nav .right{
+    display:flex;gap:36px;align-items:center;
+    font-size:14px;color:rgba(14,14,14,0.62);
+  }
+  .nav .right a:hover{color:var(--ink)}
+  @media (max-width:780px){
+    .nav .right{display:none}
+  }
 
-        /* Main Content */
-        .privacy-page {
-            padding: 120px 40px 80px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        @media (max-width: 768px) {
-            .privacy-page { padding: 100px 20px 60px; }
-        }
+  /* ============ HEADER ============ */
+  .doc-head{
+    padding: clamp(40px, 6vw, 80px) var(--pad) clamp(48px, 6vw, 96px);
+    border-bottom:1px solid var(--rule-cream);
+  }
+  .doc-head .wrap{max-width:var(--max);margin:0 auto;width:100%}
+  .breadcrumb{
+    display:flex;align-items:center;gap:10px;
+    font-family:'JetBrains Mono', monospace;font-size:11px;
+    letter-spacing:0.18em;text-transform:uppercase;
+    color:rgba(14,14,14,0.5);margin-bottom:48px;
+  }
+  .breadcrumb a{border-bottom:1px solid rgba(14,14,14,0.2)}
+  .breadcrumb a:hover{color:var(--ink);border-color:var(--ink)}
+  .breadcrumb .sep{opacity:0.4}
 
-        .privacy-header {
-            text-align: center;
-            margin-bottom: 48px;
-        }
-        .privacy-badge {
-            display: inline-block;
-            padding: 6px 14px;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 100px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 20px;
-        }
-        .privacy-title {
-            font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 12px;
-        }
-        .privacy-updated {
-            color: var(--text-tertiary);
-            font-size: 0.9rem;
-        }
+  h1.doc-h{
+    font-family:var(--serif-display);
+    font-size:clamp(56px, 9vw, 132px);
+    line-height:0.96;
+    letter-spacing:-0.035em;
+    font-weight:400;
+    max-width:14ch;
+    margin-bottom:40px;
+  }
+  h1.doc-h .of{font-family:var(--serif-italic);font-style:italic;font-weight:400}
 
-        /* Content Card */
-        .privacy-content {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 48px;
-        }
-        @media (max-width: 768px) {
-            .privacy-content { padding: 32px 24px; }
-        }
+  .doc-meta{
+    display:flex;flex-wrap:wrap;gap:32px 64px;
+    padding-top:32px;border-top:1px solid var(--rule-cream);
+    font-family:'JetBrains Mono', monospace;font-size:11px;
+    letter-spacing:0.16em;text-transform:uppercase;
+  }
+  .doc-meta .key{color:rgba(14,14,14,0.5);display:block;margin-bottom:6px}
+  .doc-meta .val{color:var(--ink);font-size:13px;letter-spacing:0.06em;text-transform:none;font-family:'Geist',system-ui,sans-serif;font-weight:500}
 
-        .privacy-intro {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-            padding-bottom: 32px;
-            border-bottom: 1px solid var(--glass-border);
-        }
+  /* ============ DOC LAYOUT ============ */
+  .doc{
+    padding: clamp(64px, 8vw, 120px) var(--pad);
+    max-width:var(--max);margin:0 auto;
+  }
+  .doc-grid{
+    display:grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: clamp(40px, 6vw, 96px);
+    align-items:start;
+  }
+  /* TOC */
+  .toc{
+    position:sticky;top:32px;
+    font-size:14px;line-height:1.5;
+    border-top:1px solid var(--ink);
+    padding-top:20px;
+  }
+  .toc .toc-h{
+    font-family:'JetBrains Mono', monospace;font-size:10px;
+    letter-spacing:0.18em;text-transform:uppercase;
+    color:rgba(14,14,14,0.5);margin-bottom:18px;
+  }
+  .toc ol{
+    list-style:none;padding:0;margin:0;
+    counter-reset: tocc;
+  }
+  .toc li{
+    counter-increment: tocc;
+    padding:8px 0;
+    border-bottom:1px solid var(--rule-cream);
+  }
+  .toc li:last-child{border-bottom:none}
+  .toc a{
+    display:flex;gap:14px;align-items:baseline;
+    color:rgba(14,14,14,0.78);
+    font-size:14px;letter-spacing:-0.005em;
+    transition:color .15s ease;
+  }
+  .toc a::before{
+    content: counter(tocc, decimal-leading-zero);
+    font-family:'JetBrains Mono', monospace;font-size:10px;
+    letter-spacing:0.12em;color:rgba(14,14,14,0.4);
+    flex:none;
+  }
+  .toc a:hover{color:var(--ink)}
+  @media (max-width: 900px){
+    .doc-grid{grid-template-columns:1fr;gap:40px}
+    .toc{position:static;top:auto}
+  }
 
-        .privacy-section {
-            margin-bottom: 40px;
-        }
-        .privacy-section:last-child {
-            margin-bottom: 0;
-        }
-        .privacy-section h2 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-        }
-        .privacy-section p {
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-            font-size: 0.95rem;
-        }
-        .privacy-section p:last-child {
-            margin-bottom: 0;
-        }
-        .privacy-section ul {
-            list-style: none;
-            margin: 16px 0;
-        }
-        .privacy-section li {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            padding-left: 24px;
-            position: relative;
-            margin-bottom: 12px;
-        }
-        .privacy-section li::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 10px;
-            width: 6px;
-            height: 6px;
-            background: var(--primary);
-            border-radius: 50%;
-        }
+  /* PROSE */
+  .prose{font-size:17px;line-height:1.7;color:rgba(14,14,14,0.86);max-width:68ch}
+  .prose section + section{margin-top:72px}
+  .prose-h{
+    display:flex;align-items:baseline;gap:18px;
+    padding-bottom:20px;margin-bottom:28px;
+    border-bottom:1px solid var(--rule-cream);
+  }
+  .prose-h .num{
+    font-family:'JetBrains Mono', monospace;font-size:11px;
+    letter-spacing:0.18em;color:rgba(14,14,14,0.45);
+    flex:none;
+  }
+  .prose h2{
+    font-family:var(--serif-display);
+    font-size:clamp(28px, 3.4vw, 42px);
+    line-height:1.05;letter-spacing:-0.025em;
+    font-weight:400;
+    max-width:22ch;
+  }
+  .prose h2 .of{font-family:var(--serif-italic);font-style:italic;font-weight:400}
+  .prose h3{
+    font-family:'Geist', system-ui, sans-serif;
+    font-size:15px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;
+    margin: 32px 0 10px;color:rgba(14,14,14,0.55);
+  }
+  .prose p + p{margin-top:18px}
+  .prose ul{padding-left:0;list-style:none;margin:18px 0}
+  .prose ul li{
+    position:relative;padding-left:28px;margin-bottom:12px;
+  }
+  .prose ul li::before{
+    content:"";position:absolute;left:0;top:13px;
+    width:14px;height:1px;background:rgba(14,14,14,0.45);
+  }
+  .prose strong{font-weight:500;color:var(--ink)}
+  .prose a{
+    color:var(--ink);
+    border-bottom:1px solid rgba(14,14,14,0.3);
+  }
+  .prose a:hover{border-color:var(--ink)}
 
-        /* Contact Box */
-        .contact-box {
-            background: rgba(0, 210, 106, 0.05);
-            border: 1px solid rgba(0, 210, 106, 0.2);
-            border-radius: 16px;
-            padding: 24px;
-            margin-top: 40px;
-        }
-        .contact-box h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--primary);
-        }
-        .contact-box p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-bottom: 8px;
-        }
-        .contact-box a {
-            color: var(--primary);
-            text-decoration: none;
-            transition: opacity 0.3s ease;
-        }
-        .contact-box a:hover {
-            opacity: 0.8;
-        }
+  /* lead / intro paragraph */
+  .lede{
+    font-size:21px;line-height:1.55;
+    color:var(--ink);
+    max-width:54ch;
+    font-weight:400;
+    letter-spacing:-0.005em;
+    margin-bottom:8px;
+  }
+  .lede + p{margin-top:18px}
 
-        /* Footer */
-        footer {
-            background: #000;
-            padding: 32px 40px;
-            border-top: 1px solid var(--glass-border);
-            text-align: center;
-        }
-        .footer-copyright {
-            color: var(--text-tertiary);
-            font-size: 0.9rem;
-        }
-        .footer-links {
-            margin-top: 12px;
-        }
-        .footer-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.85rem;
-            margin: 0 12px;
-            transition: color 0.3s ease;
-        }
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-    </style>
+  /* fact card grid (mirrors compliance grid on landing) */
+  .facts{
+    margin:36px 0 8px;
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:0 48px;
+    border-top:1px solid var(--ink);
+  }
+  @media (max-width:680px){.facts{grid-template-columns:1fr;gap:0}}
+  .fact{
+    padding:20px 0 18px;
+    border-bottom:1px solid var(--rule-cream);
+  }
+  .fact strong{
+    display:block;font-weight:500;font-size:15px;
+    letter-spacing:-0.01em;margin-bottom:6px;color:var(--ink);
+  }
+  .fact p{font-size:14.5px;line-height:1.55;color:rgba(14,14,14,0.7)}
+
+  /* ============ CONTACT BLOCK ============ */
+  .doc-contact{
+    margin-top: clamp(80px, 10vw, 140px);
+    padding: clamp(48px, 6vw, 88px) 0;
+    border-top:1px solid var(--ink);
+    border-bottom:1px solid var(--rule-cream);
+    display:grid;grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+    gap: clamp(32px, 5vw, 72px);
+  }
+  @media (max-width:780px){.doc-contact{grid-template-columns:1fr}}
+  .doc-contact h3{
+    font-family:var(--serif-display);
+    font-size:clamp(28px, 3.2vw, 40px);
+    font-weight:400;letter-spacing:-0.025em;line-height:1.05;
+    max-width:18ch;
+  }
+  .doc-contact h3 .of{font-family:var(--serif-italic);font-style:italic}
+  .doc-contact p{
+    font-size:16px;line-height:1.6;color:rgba(14,14,14,0.75);
+    max-width:46ch;margin-bottom:24px;
+  }
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:14px 22px;border-radius:999px;
+    font-family:'Geist', system-ui, sans-serif;
+    font-weight:500;font-size:14px;letter-spacing:-0.005em;
+    background:var(--black);color:var(--cream);
+    border:1px solid var(--black);
+    transition:transform .2s ease, background .2s ease;
+  }
+  .btn:hover{background:#000;transform:translateY(-1px)}
+  .btn .arrow{display:inline-block;transition:transform .2s ease}
+  .btn:hover .arrow{transform:translate(2px,0)}
+  /* override prose anchor color/border inside the dark CTA button */
+  .prose a.btn{color:var(--cream);border-bottom:none}
+  .prose a.btn:hover{color:#fff;border-bottom:none}
+
+  /* sibling doc link */
+  .doc-sibling{
+    margin-top:64px;padding:28px 0;
+    border-top:1px solid var(--rule-cream);
+    display:flex;justify-content:space-between;align-items:center;gap:24px;
+    font-family:'JetBrains Mono', monospace;font-size:11px;
+    letter-spacing:0.16em;text-transform:uppercase;
+    color:rgba(14,14,14,0.6);
+  }
+  .doc-sibling a{
+    display:inline-flex;align-items:center;gap:10px;
+    color:var(--ink);
+    border-bottom:1px solid rgba(14,14,14,0.3);
+    padding-bottom:2px;
+  }
+  .doc-sibling a:hover{border-color:var(--ink)}
+  .doc-sibling a .arrow{transition:transform .2s ease;display:inline-block}
+  .doc-sibling a:hover .arrow{transform:translate(2px,0)}
+
+  /* ============ FOOTER (compact, dark) ============ */
+  footer{
+    padding: 64px var(--pad) 28px;
+    background:var(--black);color:var(--cream);
+    margin-top:80px;
+  }
+  .ftr-grid{
+    max-width:var(--max);margin:0 auto;
+    display:grid;grid-template-columns:1.4fr 1fr 1fr 1.4fr;
+    gap:48px;align-items:start;
+  }
+  footer .wm{color:var(--cream)}
+  footer .wm-mark{background-image:url('assets/flower-of-life-white.png')}
+  footer .ftr-tag{font-size:14px;color:rgba(244,239,230,0.62);margin-top:12px;max-width:30ch;line-height:1.5}
+  .ftr-col h4{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:0.18em;text-transform:uppercase;color:rgba(244,239,230,0.55);
+    font-weight:400;margin-bottom:20px;
+  }
+  .ftr-col a{font-size:15px;line-height:1.55;color:rgba(244,239,230,0.88);display:block;margin-bottom:6px}
+  .ftr-col a:hover{color:#fff;text-decoration:underline}
+  .ftr-col a.current{color:#fff}
+  .ftr-col a.current::before{content:"→ ";color:var(--accent)}
+  .pledge{font-size:14px;line-height:1.5;color:rgba(244,239,230,0.75);max-width:34ch}
+  .ftr-bottom{
+    max-width:var(--max);width:100%;margin: 56px auto 0;
+    padding:24px 0 0;border-top:1px solid rgba(244,239,230,0.18);
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(244,239,230,0.7);
+  }
+  @media (max-width: 780px){
+    .ftr-grid{grid-template-columns:1fr 1fr;gap:40px}
+  }
+</style>
 </head>
 <body>
-    <nav>
-        <a href="index.html" class="nav-logo">
-            <img src="logo.png" alt="neoQuad Logo">
-            <span>neoQuad</span>
-        </a>
-        <a href="index.html" class="nav-back">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-            Back to Home
-        </a>
-    </nav>
 
-    <main class="privacy-page">
-        <div class="privacy-header">
-            <span class="privacy-badge">Legal</span>
-            <h1 class="privacy-title">Privacy Policy</h1>
-            <p class="privacy-updated">Last updated: December 26, 2025</p>
+<!-- ====================== NAV ====================== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="neoQuad Landing.html" class="wm"><span class="wm-mark" aria-hidden="true"></span>neo<em>Quad</em></a>
+    <div class="right">
+      <a href="neoQuad Landing.html#institutions">Institutions</a>
+      <a href="neoQuad Landing.html#product">Product</a>
+      <a href="neoQuad Landing.html#why">Why</a>
+      <a href="neoQuad Landing.html#team">Team</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ====================== DOC HEAD ====================== -->
+<header class="doc-head" data-screen-label="01 Privacy Header">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href="neoQuad Landing.html">neoQuad</a>
+      <span class="sep">/</span>
+      <span>Legal</span>
+      <span class="sep">/</span>
+      <span>Privacy</span>
+    </div>
+    <h1 class="doc-h">Privacy <span class="of">Policy</span>.</h1>
+    <div class="doc-meta">
+      <div>
+        <span class="key">Last updated</span>
+        <span class="val">December 26, 2025</span>
+      </div>
+      <div>
+        <span class="key">Applies to</span>
+        <span class="val">neoQuad app &amp; website</span>
+      </div>
+      <div>
+        <span class="key">Contact</span>
+        <span class="val">hello@neoquadapp.com</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ====================== DOC ====================== -->
+<main class="doc" data-screen-label="02 Privacy Body">
+  <div class="doc-grid">
+    <!-- TOC -->
+    <aside class="toc" aria-label="On this page">
+      <div class="toc-h">On this page</div>
+      <ol>
+        <li><a href="#collect">Information we collect</a></li>
+        <li><a href="#use">How we use it</a></li>
+        <li><a href="#sharing">Information sharing</a></li>
+        <li><a href="#security">Data security</a></li>
+        <li><a href="#rights">Your rights</a></li>
+        <li><a href="#children">Children's privacy</a></li>
+        <li><a href="#changes">Changes to this policy</a></li>
+        <li><a href="#contact">Questions</a></li>
+      </ol>
+    </aside>
+
+    <!-- PROSE -->
+    <article class="prose">
+
+      <p class="lede">neoQuad (&ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;) is committed to protecting your privacy. This Privacy Policy explains how your personal information is collected, used, and disclosed by neoQuad when you use our app and website.</p>
+
+      <div class="facts">
+        <div class="fact"><strong>We don't sell your data.</strong><p>Not to advertisers, not to data brokers, not to anyone.</p></div>
+        <div class="fact"><strong>Encrypted, end to end.</strong><p>Passwords are hashed. Traffic is encrypted in transit and at rest.</p></div>
+        <div class="fact"><strong>You stay in control.</strong><p>Access, update, export, or delete your data at any time.</p></div>
+        <div class="fact"><strong>Built for .edu.</strong><p>Designed for students 13 and over with a valid school email.</p></div>
+      </div>
+
+      <section id="collect">
+        <div class="prose-h">
+          <span class="num">01</span>
+          <h2>Information we <span class="of">collect</span>.</h2>
         </div>
 
-        <div class="privacy-content">
-            <p class="privacy-intro">
-                neoQuad ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how your personal information is collected, used, and disclosed by neoQuad when you use our app and website.
-            </p>
+        <p>We collect information you provide directly to us when you create an account or use our services:</p>
 
-            <div class="privacy-section">
-                <h2>Information We Collect</h2>
-                <p>We collect information you provide directly to us when you create an account or use our services:</p>
-                <ul>
-                    <li>Name and username</li>
-                    <li>Email address (your .edu email)</li>
-                    <li>Password (encrypted)</li>
-                    <li>Phone number (optional)</li>
-                    <li>Photos you choose to upload</li>
-                </ul>
-            </div>
+        <ul>
+          <li>Name and username</li>
+          <li>Email address (your <strong>.edu</strong> email)</li>
+          <li>Password (encrypted)</li>
+          <li>Phone number (optional)</li>
+          <li>Photos you choose to upload</li>
+        </ul>
+      </section>
 
-            <div class="privacy-section">
-                <h2>How We Use Your Information</h2>
-                <p>We use the information we collect to:</p>
-                <ul>
-                    <li>Provide, maintain, and improve our services</li>
-                    <li>Connect you with campus events and clubs</li>
-                    <li>Send you notifications about events you've RSVP'd to</li>
-                    <li>Respond to your comments and questions</li>
-                    <li>Analyze usage to improve the app experience</li>
-                </ul>
-            </div>
-
-            <div class="privacy-section">
-                <h2>Information Sharing</h2>
-                <p>We do not sell your personal information. We may share information with:</p>
-                <ul>
-                    <li>Service providers who help us operate the app (hosting, analytics)</li>
-                    <li>Other users when you RSVP to events (your name may be visible)</li>
-                    <li>Law enforcement when required by law</li>
-                </ul>
-            </div>
-
-            <div class="privacy-section">
-                <h2>Data Security</h2>
-                <p>We use industry-standard security measures to protect your information, including encryption and secure servers. However, no method of transmission over the internet is 100% secure.</p>
-            </div>
-
-            <div class="privacy-section">
-                <h2>Your Rights</h2>
-                <p>You have the right to:</p>
-                <ul>
-                    <li>Access and update your personal information</li>
-                    <li>Delete your account and associated data</li>
-                    <li>Opt out of promotional communications</li>
-                    <li>Request a copy of your data</li>
-                </ul>
-            </div>
-
-            <div class="privacy-section">
-                <h2>Children's Privacy</h2>
-                <p>neoQuad is designed for college students. We do not knowingly collect information from anyone under the age of 13. If we learn we have collected such information, we will delete it immediately.</p>
-            </div>
-
-            <div class="privacy-section">
-                <h2>Changes to This Policy</h2>
-                <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the "Last updated" date.</p>
-            </div>
-
-            <div class="contact-box">
-                <h3>Questions?</h3>
-                <p>If you have any questions about this Privacy Policy, please contact us:</p>
-                <p>📧 <a href="mailto:hello@neoquadapp.com">hello@neoquadapp.com</a></p>
-            </div>
+      <section id="use">
+        <div class="prose-h">
+          <span class="num">02</span>
+          <h2>How we <span class="of">use</span> your information.</h2>
         </div>
-    </main>
 
-    <footer>
-        <p class="footer-copyright">© 2025 neoQuad. All rights reserved.</p>
-        <div class="footer-links">
-            <a href="index.html">Home</a>
-            <a href="privacy.html">Privacy Policy</a>
-            <a href="terms.html">Terms of Service</a>
+        <p>We use the information we collect to:</p>
+
+        <ul>
+          <li>Provide, maintain, and improve our services</li>
+          <li>Connect you with campus events and clubs</li>
+          <li>Send you notifications about events you've RSVP'd to</li>
+          <li>Respond to your comments and questions</li>
+          <li>Analyze usage to improve the app experience</li>
+        </ul>
+      </section>
+
+      <section id="sharing">
+        <div class="prose-h">
+          <span class="num">03</span>
+          <h2>Information <span class="of">sharing</span>.</h2>
         </div>
-    </footer>
+
+        <p><strong>We do not sell your personal information.</strong> We may share information with:</p>
+
+        <ul>
+          <li>Service providers who help us operate the app (hosting, analytics)</li>
+          <li>Other users when you RSVP to events (your name may be visible)</li>
+          <li>Law enforcement when required by law</li>
+        </ul>
+      </section>
+
+      <section id="security">
+        <div class="prose-h">
+          <span class="num">04</span>
+          <h2>Data <span class="of">security</span>.</h2>
+        </div>
+
+        <p>We use industry-standard security measures to protect your information, including encryption and secure servers. However, no method of transmission over the internet is 100% secure.</p>
+      </section>
+
+      <section id="rights">
+        <div class="prose-h">
+          <span class="num">05</span>
+          <h2>Your <span class="of">rights</span>.</h2>
+        </div>
+
+        <p>You have the right to:</p>
+
+        <ul>
+          <li>Access and update your personal information</li>
+          <li>Delete your account and associated data</li>
+          <li>Opt out of promotional communications</li>
+          <li>Request a copy of your data</li>
+        </ul>
+      </section>
+
+      <section id="children">
+        <div class="prose-h">
+          <span class="num">06</span>
+          <h2>Children's <span class="of">privacy</span>.</h2>
+        </div>
+
+        <p>neoQuad is designed for college students. We do not knowingly collect information from anyone under the age of 13. If we learn we have collected such information, we will delete it immediately.</p>
+      </section>
+
+      <section id="changes">
+        <div class="prose-h">
+          <span class="num">07</span>
+          <h2>Changes to this <span class="of">policy</span>.</h2>
+        </div>
+
+        <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the &ldquo;Last updated&rdquo; date.</p>
+      </section>
+
+      <!-- CONTACT -->
+      <div class="doc-contact" id="contact">
+        <div>
+          <h3>Questions about your <span class="of">privacy</span>?</h3>
+        </div>
+        <div>
+          <p>If you have any questions about this Privacy Policy, please get in touch — we read every message.</p>
+          <a href="mailto:hello@neoquadapp.com" class="btn">hello@neoquadapp.com <span class="arrow">→</span></a>
+        </div>
+      </div>
+
+      <!-- SIBLING DOC -->
+      <div class="doc-sibling">
+        <span>Also see</span>
+        <a href="Terms.html">Terms of Service <span class="arrow">→</span></a>
+      </div>
+
+    </article>
+  </div>
+</main>
+
+<!-- ====================== FOOTER ====================== -->
+<footer data-screen-label="03 Footer">
+  <div class="ftr-grid">
+    <div class="ftr-col">
+      <a href="neoQuad Landing.html" class="wm" style="font-size:24px"><span class="wm-mark" style="width:34px;height:34px;margin-right:10px" aria-hidden="true"></span>neo<em>Quad</em></a>
+      <p class="ftr-tag">The operating system for campus life.</p>
+    </div>
+    <div class="ftr-col">
+      <h4>Contact</h4>
+      <a href="mailto:hello@neoquadapp.com">hello@neoquadapp.com</a>
+    </div>
+    <div class="ftr-col">
+      <h4>Legal</h4>
+      <a href="Privacy.html" class="current">Privacy</a>
+      <a href="Terms.html">Terms</a>
+    </div>
+    <div class="ftr-col">
+      <h4>The 1% pledge</h4>
+      <p class="pledge">1% of all future net revenues will go to support the most effective solutions for the world's most pressing challenges.</p>
+    </div>
+  </div>
+  <div class="ftr-bottom">
+    <span>© 2026 neoQuad</span>
+    <span>All rights reserved</span>
+  </div>
+</footer>
+
 </body>
 </html>
