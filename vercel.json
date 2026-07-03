@@ -1,0 +1,24 @@
+{
+  "redirects": [
+    {
+      "source": "/admin.html",
+      "destination": "https://staff.neoquadapp.com",
+      "permanent": true
+    },
+    {
+      "source": "/admin",
+      "destination": "https://staff.neoquadapp.com",
+      "permanent": true
+    },
+    {
+      "source": "/events.html",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/events",
+      "destination": "/",
+      "permanent": false
+    }
+  ]
+}
