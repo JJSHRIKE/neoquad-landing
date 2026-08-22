@@ -275,6 +275,16 @@
   .hero-nav a.nav-cta:hover{background:#2d86ec;color:#fff;transform:translateY(-1px);box-shadow:0 6px 20px -8px rgba(20,119,231,0.6)}
   .hero-nav a.nav-cta .arrow{transition:transform .2s ease}
   .hero-nav a.nav-cta:hover .arrow{transform:translate(2px,0)}
+  .hero-nav a.nav-staff{
+    display:inline-flex;align-items:center;
+    padding:9px 16px;border-radius:999px;
+    font-size:13.5px;font-weight:500;letter-spacing:-0.005em;
+    color:var(--cream);
+    background:transparent;
+    border:1px solid rgba(244,239,230,0.55);
+    transition:transform .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+  }
+  .hero-nav a.nav-staff:hover{background:var(--cream);color:var(--black);border-color:var(--cream);transform:translateY(-1px)}
   .hero-body{
     position:relative;z-index:2;flex:1;
     padding:clamp(40px, 6vw, 80px) var(--pad) clamp(48px, 6vw, 88px);
@@ -1354,6 +1364,19 @@
   .ftr-col a.ftr-btn:hover{color:#fff;border-color:#fff;background:transparent;transform:none;text-decoration:none}
   .ftr-col a.ftr-btn .arrow{transition:transform .2s ease}
   .ftr-col a.ftr-btn:hover .arrow{transform:translate(2px,0)}
+  .ftr-col a.ftr-staff{
+    display:inline-flex;align-items:center;
+    width:max-content;max-width:100%;
+    margin:10px 0 8px;padding:9px 16px;
+    border-radius:999px;
+    font-size:13.5px;font-weight:500;letter-spacing:-0.005em;
+    color:var(--cream);
+    background:transparent;
+    border:1px solid rgba(244,239,230,0.55);
+    text-decoration:none;
+    transition:transform .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+  }
+  .ftr-col a.ftr-staff:hover{background:var(--cream);color:var(--black);border-color:var(--cream);transform:translateY(-1px);text-decoration:none}
   .ftr-tag{font-size:14px;color:rgba(244,239,230,0.62);margin-top:12px;max-width:30ch;line-height:1.5}
   .pledge{font-size:14px;line-height:1.5;color:rgba(244,239,230,0.75);max-width:34ch}
   /* Shimmer sweep on the 1% pledge — fires on scroll-into-view and on hover */
@@ -1456,8 +1479,16 @@
       border-bottom:1px solid rgba(244,239,230,0.12);
       color:var(--cream);
     }
-    .hero-nav .right a.nav-cta{
+    .hero-nav .right a.nav-staff{
+      order:1;
       margin:28px 0 0;padding:16px 26px;
+      width:100%;justify-content:center;
+      font-size:15px;
+      border:1px solid rgba(244,239,230,0.55);
+    }
+    .hero-nav .right a.nav-cta{
+      order:2;
+      margin:12px 0 0;padding:16px 26px;
       width:100%;justify-content:center;
       border:1px solid rgba(176,197,220,0.37);
       font-size:15px;
@@ -1632,7 +1663,7 @@
       <a href="#institutions">Institutions</a>
       <a href="#why">Why</a>
       <a href="#team">Team</a>
-      <a href="https://staff.neoquadapp.com">Staff login</a>
+      <a class="nav-staff" href="https://staff.neoquadapp.com">Staff login</a>
       <a href="https://events.neoquadapp.com/">Discover Events</a>
       <a class="nav-cta" href="https://forms.fillout.com/t/29rxfuvnNwus" target="_blank" rel="noopener">Demo with Founder <span class="arrow" aria-hidden="true">→</span></a>
     </div>
@@ -1650,9 +1681,8 @@ who need them. <span style="color: rgb(45, 134, 236)">Built for institutions. Lo
 
 </p>
         <div class="cta-row">
-          <a href="#institutions" class="btn">For administrators <span class="arrow">→</span></a>
           <span class="cta-discover">
-            <a href="https://events.neoquadapp.com/" class="btn-ghost js-discover">Discover Events <span class="arrow">→</span></a>
+            <a href="https://events.neoquadapp.com/" class="btn">Discover Events <span class="arrow">→</span></a>
             <img class="sticky-note" src="assets/sticky-free.png" alt="" aria-hidden="true" width="62" height="65">
           </span>
         </div>
@@ -2204,7 +2234,7 @@ who need them. <span style="color: rgb(45, 134, 236)">Built for institutions. Lo
     <div class="ftr-col">
       <h4>Contact</h4>
       <a href="mailto:hello@neoquad.app">hello@neoquad.app</a>
-      <a href="https://staff.neoquadapp.com">Staff login</a>
+      <a class="ftr-staff" href="https://staff.neoquadapp.com">Staff login</a>
       <a class="ftr-btn" href="https://forms.fillout.com/t/29rxfuvnNwus" target="_blank" rel="noopener">Demo with Founder <span class="arrow" aria-hidden="true">→</span></a>
     </div>
     <div class="ftr-col">
