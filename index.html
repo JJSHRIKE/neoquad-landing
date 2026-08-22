@@ -306,10 +306,10 @@
     margin-bottom:48px;
   }
   .cta-row{display:flex;gap:18px 28px;align-items:center;flex-wrap:wrap;padding-top:22px}
-  .cta-discover{position:relative;display:inline-flex;margin-right:28px}
+  .cta-discover{position:relative;display:inline-flex;padding-right:40px}
   .sticky-note{
     position:absolute;
-    top:-20px;right:-36px;
+    top:-20px;right:0;
     z-index:3;
     width:62px;height:auto;
     pointer-events:none;
@@ -338,68 +338,6 @@
   .btn-ghost:hover{background:var(--cream);color:var(--black);border-color:var(--cream);transform:translateY(-1px)}
   .btn-ghost .arrow{display:inline-block;transition:transform .2s ease}
   .btn-ghost:hover .arrow{transform:translate(2px,0)}
-  .btn-link{
-    font-size:14px;color:rgba(244,239,230,0.72);
-    border-bottom:1px solid rgba(244,239,230,0.25);
-    padding-bottom:2px;
-  }
-  .btn-link:hover{color:#fff;border-color:#fff}
-
-  /* Discover Events chooser */
-  .discover-sheet{
-    position:fixed;inset:0;z-index:200;
-    display:flex;align-items:center;justify-content:center;
-    padding:var(--pad);
-    opacity:0;visibility:hidden;pointer-events:none;
-    transition:opacity .28s ease, visibility .28s;
-  }
-  .discover-sheet.is-open{opacity:1;visibility:visible;pointer-events:auto}
-  .discover-sheet-backdrop{
-    position:absolute;inset:0;
-    background:rgba(14,14,14,0.62);
-    backdrop-filter:blur(14px) saturate(140%);
-    -webkit-backdrop-filter:blur(14px) saturate(140%);
-  }
-  .discover-sheet-panel{
-    position:relative;z-index:1;
-    width:min(440px, 100%);
-    padding:32px 28px 28px;
-    border-radius:20px;
-    background:rgba(22,22,22,0.94);
-    border:1px solid rgba(244,239,230,0.12);
-    box-shadow:0 28px 80px -24px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06);
-    color:var(--cream);
-  }
-  .discover-sheet-close{
-    position:absolute;top:14px;right:14px;
-    width:36px;height:36px;padding:0;border:0;border-radius:10px;
-    background:transparent;color:rgba(244,239,230,0.7);
-    font-size:20px;line-height:1;cursor:pointer;
-  }
-  .discover-sheet-close:hover{background:rgba(244,239,230,0.08);color:#fff}
-  .discover-sheet .eyebrow{
-    font-family:'JetBrains Mono', ui-monospace, monospace;
-    font-size:10px;letter-spacing:0.16em;text-transform:uppercase;
-    color:rgba(244,239,230,0.5);
-    margin:0 0 10px;
-  }
-  .discover-sheet h3{
-    font-family:var(--serif-display);
-    font-size:clamp(26px, 3vw, 32px);
-    font-weight:400;letter-spacing:-0.03em;line-height:1.1;
-    margin:0 0 8px;
-  }
-  .discover-sheet .lead{
-    font-size:15px;line-height:1.45;
-    color:rgba(244,239,230,0.68);
-    margin:0 0 26px;
-  }
-  .discover-actions{display:flex;flex-direction:column;gap:10px}
-  .discover-actions .btn,
-  .discover-actions .btn-ghost{justify-content:center;width:100%}
-  @media (prefers-reduced-motion: reduce){
-    .discover-sheet{transition-duration:.12s}
-  }
 
   /* SBCC wordmark band */
   #proof{
@@ -724,21 +662,10 @@
   .pcap{font-size:14px;color:rgba(244,239,230,0.7)}
   .pcap strong{color:var(--cream);font-weight:500}
 
-  .appstore{
+  .product-cta{
     margin-top:64px;
     display:flex;align-items:center;gap:24px;flex-wrap:wrap;
   }
-  .as-badge{
-    display:inline-flex;align-items:center;gap:12px;
-    padding:12px 22px;border-radius:14px;
-    background:var(--cream);color:var(--black);
-    border:1px solid var(--cream);
-  }
-  .as-badge:hover{background:#fff}
-  .as-badge .apple{width:22px;height:26px;display:block;margin-bottom:2px}
-  .as-badge .lbl{display:flex;flex-direction:column;line-height:1.1}
-  .as-badge .lbl .small{font-size:10px;letter-spacing:0.06em;text-transform:uppercase;opacity:0.7}
-  .as-badge .lbl .big{font-size:17px;font-weight:500;letter-spacing:-0.01em}
   .as-note{font-size:13px;color:rgba(244,239,230,0.6)}
 
   /* ============ ADMIN DASHBOARD REVEAL TOGGLE ============ */
@@ -1427,8 +1354,6 @@
   .ftr-col a.ftr-btn:hover{color:#fff;border-color:#fff;background:transparent;transform:none;text-decoration:none}
   .ftr-col a.ftr-btn .arrow{transition:transform .2s ease}
   .ftr-col a.ftr-btn:hover .arrow{transform:translate(2px,0)}
-  footer .as-badge{color:var(--ink)}
-  footer .as-badge:hover{text-decoration:none;color:var(--ink)}
   .ftr-tag{font-size:14px;color:rgba(244,239,230,0.62);margin-top:12px;max-width:30ch;line-height:1.5}
   .pledge{font-size:14px;line-height:1.5;color:rgba(244,239,230,0.75);max-width:34ch}
   /* Shimmer sweep on the 1% pledge — fires on scroll-into-view and on hover */
@@ -1461,9 +1386,8 @@
 
   /* ============ RESPONSIVE ============ */
   @media (max-width: 720px){
-    .sticky-note{width:48px;top:-16px;right:-22px}
-    .cta-discover{margin-right:18px}
-    .cta-discover{margin-right:8px}
+    .sticky-note{width:48px;top:-16px;right:4px}
+    .cta-discover{padding-right:28px}
   }
 
   @media (max-width: 900px){
@@ -1709,6 +1633,7 @@
       <a href="#why">Why</a>
       <a href="#team">Team</a>
       <a href="https://staff.neoquadapp.com">Staff login</a>
+      <a href="https://events.neoquadapp.com/">Discover Events</a>
       <a class="nav-cta" href="https://forms.fillout.com/t/29rxfuvnNwus" target="_blank" rel="noopener">Demo with Founder <span class="arrow" aria-hidden="true">→</span></a>
     </div>
   </nav>
@@ -1727,7 +1652,7 @@ who need them. <span style="color: rgb(45, 134, 236)">Built for institutions. Lo
         <div class="cta-row">
           <a href="#institutions" class="btn">For administrators <span class="arrow">→</span></a>
           <span class="cta-discover">
-            <a href="https://events.neoquadapp.com/" class="btn-ghost js-discover">Discover events <span class="arrow">→</span></a>
+            <a href="https://events.neoquadapp.com/" class="btn-ghost js-discover">Discover Events <span class="arrow">→</span></a>
             <img class="sticky-note" src="assets/sticky-free.png" alt="" aria-hidden="true" width="62" height="65">
           </span>
         </div>
@@ -1766,50 +1691,6 @@ who need them. <span style="color: rgb(45, 134, 236)">Built for institutions. Lo
     if (window.innerWidth > 900) setOpen(false);
   });
 })();
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-  var sheet = document.getElementById('discoverSheet');
-  if (!sheet) return;
-  var lastFocus = null;
-  function focusables(){
-    return Array.prototype.slice.call(sheet.querySelectorAll('a, button')).filter(function(el){
-      return !el.disabled && el.offsetParent !== null;
-    });
-  }
-  function openSheet(e){
-    if (e) e.preventDefault();
-    lastFocus = document.activeElement;
-    sheet.classList.add('is-open');
-    sheet.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('nav-open');
-    var closeBtn = sheet.querySelector('.discover-sheet-close');
-    if (closeBtn) closeBtn.focus();
-  }
-  function closeSheet(){
-    sheet.classList.remove('is-open');
-    sheet.setAttribute('aria-hidden', 'true');
-    if (!document.querySelector('.hero-nav .right.is-open')) {
-      document.body.classList.remove('nav-open');
-    }
-    if (lastFocus && lastFocus.focus) lastFocus.focus();
-  }
-  document.querySelectorAll('.js-discover').forEach(function(el){
-    el.addEventListener('click', openSheet);
-  });
-  sheet.querySelector('.discover-sheet-backdrop').addEventListener('click', closeSheet);
-  sheet.querySelector('.discover-sheet-close').addEventListener('click', closeSheet);
-  document.addEventListener('keydown', function(e){
-    if (!sheet.classList.contains('is-open')) return;
-    if (e.key === 'Escape') { closeSheet(); return; }
-    if (e.key !== 'Tab') return;
-    var list = focusables();
-    if (!list.length) return;
-    var first = list[0], last = list[list.length - 1];
-    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-  });
-});
 </script>
 
 <!-- ====================== SCROLL CAROUSEL ====================== -->
@@ -1856,7 +1737,7 @@ document.addEventListener('DOMContentLoaded', function(){
     </div>
 
     <div class="appstore">
-      <a href="https://events.neoquadapp.com/" class="btn-ghost js-discover">Discover events <span class="arrow">→</span></a>
+      <a href="https://events.neoquadapp.com/" class="btn-ghost js-discover">Discover Events <span class="arrow">→</span></a>
       <span class="as-note">Free for students · iOS + web</span>
     </div>
   </div>
@@ -2318,7 +2199,7 @@ document.addEventListener('DOMContentLoaded', function(){
     <div class="ftr-col">
       <a href="#" class="wm" style="font-size: 24px; margin: -12px 0px 0px; padding: 0px"><span class="wm-mark" style="width:34px;height:34px" aria-hidden="true"></span>neo<em>Quad</em></a>
       <p class="ftr-tag" style="margin: 4px 0px 0px">The operating system for campus life.</p>
-      <a href="https://events.neoquadapp.com/" class="btn-ghost js-discover">Discover events <span class="arrow">→</span></a>
+      <a href="https://events.neoquadapp.com/" class="btn-ghost js-discover">Discover Events <span class="arrow">→</span></a>
     </div>
     <div class="ftr-col">
       <h4>Contact</h4>
@@ -2479,23 +2360,6 @@ document.addEventListener('DOMContentLoaded', function(){
   });
 })();
 </script>
-
-
-
-
-<div class="discover-sheet" id="discoverSheet" role="dialog" aria-modal="true" aria-labelledby="discoverTitle" aria-hidden="true">
-  <div class="discover-sheet-backdrop"></div>
-  <div class="discover-sheet-panel">
-    <button type="button" class="discover-sheet-close" aria-label="Close">×</button>
-    <p class="eyebrow">Student app</p>
-    <h3 id="discoverTitle">How do you want to go?</h3>
-    <p class="lead">Continue in the browser, or get neoQuad on iOS.</p>
-    <div class="discover-actions">
-      <a class="btn" href="https://events.neoquadapp.com/">Continue on the web <span class="arrow">→</span></a>
-      <a class="btn-ghost" href="https://apps.apple.com/us/app/neoquad/id6757087245" target="_blank" rel="noopener">Download on the App Store</a>
-    </div>
-  </div>
-</div>
 
 <!-- ====================== TWEAKS ====================== -->
 <div id="tweaks-root"></div>
